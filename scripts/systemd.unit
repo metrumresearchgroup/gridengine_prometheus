@@ -1,0 +1,16 @@
+[Unit]
+Description=Prometheus exporter for Sun Grid Engine Qstat Details
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart/usr/bin/nohup /usr/local/sbin/gridengine-exporter --pidfile %t/gridengine-exporter/gridengine-exporter.pid &
+ExecStop=/usr/bin/pkill --pidfile %t/gridengine-exporter/gridengine-exporter.pid
+Restart=always
+TimeoutStopSec=30s
+LimitNOFILE=262144
+
+[Install]
+WanteBy=multi-user.target
