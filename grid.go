@@ -244,37 +244,37 @@ func generatedQstatOputput() (string, error) {
 						{
 							Name:  "load_average",
 							Type:  "hl",
-							Value: fmt.Sprintf("%f", random.Float64()),
+							Value: "1.04",
 						},
 						{
 							Name:  "num_proc",
 							Type:  "ag",
-							Value: strconv.Itoa(random.Int()),
+							Value: "3",
 						},
 						{
 							Name:  "mem_free",
 							Type:  "af",
-							Value: fmt.Sprintf("%f", random.Float64()) + "G",
+							Value: "2.04G",
 						},
 						{
 							Name:  "swap_free",
 							Type:  "ae",
-							Value: fmt.Sprintf("%f", random.Float64()) + "G",
+							Value: "500M",
 						},
 						{
 							Name:  "virtual_free",
 							Type:  "ad",
-							Value: fmt.Sprintf("%f", random.Float64()) + "G",
+							Value: "4G",
 						},
 						{
 							Name:  "mem_used",
 							Type:  "ac",
-							Value: fmt.Sprintf("%f", random.Float64()) + "G",
+							Value: "3G",
 						},
 						{
 							Name:  "mem_total",
 							Type:  "ab",
-							Value: fmt.Sprintf("%f", random.Float64()) + "G",
+							Value: "6G",
 						},
 						{
 							Name:  "cpu",
