@@ -24,5 +24,24 @@ jobs:
             dep ensure
         fi
 
+    - name: Test
+      run: |
+        go test -v -covermode=count -coverprofile=general.out
+        go test -json > report.json
+
+    - name: Coverall
+      env:
+        COVERALLS_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+      run: |
+        go get -v golang.org/x/tools/cmd/cover
+        go get -v github.com/mattn/goveralls
+        mkdir -p $GOROOT/src/github.com/metrumresearchgroup
+        cp -vrf /home/runner/work/gridengine_prometheus/gridengine_prometheus $GOROOT/src/github.com/metrumresearchgroup
+        cd $GOROOT/src/github.com/metrumresearchgroup/gridengine_prometheus
+        go test -v -covermode=count -coverprofile=coverage.out
+        cp /home/runner/go/bin/goveralls $GOROOT/bin
+        git checkout master
+        $GOROOT/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
+
     - name: Build
       run: go build -v .
