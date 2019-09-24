@@ -294,159 +294,26 @@ func generatedQstatOputput() (string, error) {
 							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
 							Slots:       3,
 						},
-						{
-							XMLName: xml.Name{
-								Local: "job_list",
-							},
-							State:       "running",
-							JBJobNumber: int64(random.Int()),
-							JATPriority: random.Float64(),
-							JobName:     "Job-" + strconv.Itoa(random.Int()),
-							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
-							Slots:       int32(random.Int()),
-						},
-						{
-							XMLName: xml.Name{
-								Local: "job_list",
-							},
-							State:       "running",
-							JBJobNumber: int64(random.Int()),
-							JATPriority: random.Float64(),
-							JobName:     "Job-" + strconv.Itoa(random.Int()),
-							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
-							Slots:       int32(random.Int()),
-						},
-						{
-							XMLName: xml.Name{
-								Local: "job_list",
-							},
-							State:       "running",
-							JBJobNumber: int64(random.Int()),
-							JATPriority: random.Float64(),
-							JobName:     "Job-" + strconv.Itoa(random.Int()),
-							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
-							Slots:       int32(random.Int()),
-						},
-						{
-							XMLName: xml.Name{
-								Local: "job_list",
-							},
-							State:       "running",
-							JBJobNumber: int64(random.Int()),
-							JATPriority: random.Float64(),
-							JobName:     "Job-" + strconv.Itoa(random.Int()),
-							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
-							Slots:       int32(random.Int()),
-						},
-						{
-							XMLName: xml.Name{
-								Local: "job_list",
-							},
-							State:       "",
-							JBJobNumber: int64(random.Int()),
-							JATPriority: random.Float64(),
-							JobName:     "Job-" + strconv.Itoa(random.Int()),
-							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
-							Slots:       int32(random.Int()),
-						},
-						{
-							XMLName: xml.Name{
-								Local: "job_list",
-							},
-							JBJobNumber: int64(random.Int()),
-							JATPriority: random.Float64(),
-							JobName:     "Job-" + strconv.Itoa(random.Int()),
-							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
-							Slots:       int32(random.Int()),
-						},
 					},
 				},
 				{
 					XMLName: xml.Name{
 						Local: "Queue-List",
 					},
-					Name:          "all.q@testing.second", //Always needs the @ symbol
-					SlotsTotal:    int32(random.Int()),
-					SlotsUsed:     int32(random.Int()),
-					SlotsReserved: int32(random.Int()),
-					LoadAverage:   float64(random.Float64()),
-					Resources:     gogridengine.ResourceList{},
+					Name: "all.q@testing.second", //Always needs the @ symbol
+
+					Resources: gogridengine.ResourceList{},
 					JobList: []gogridengine.JobList{
 						{
 							XMLName: xml.Name{
 								Local: "job_list",
 							},
 							State:       "running",
-							JBJobNumber: int64(random.Int()),
-							JATPriority: random.Float64(),
-							JobName:     "Job-" + strconv.Itoa(random.Int()),
-							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
-							Slots:       3,
-						},
-						{
-							XMLName: xml.Name{
-								Local: "job_list",
-							},
-							State:       "running",
-							JBJobNumber: int64(random.Int()),
-							JATPriority: random.Float64(),
-							JobName:     "Job-" + strconv.Itoa(random.Int()),
-							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
-							Slots:       int32(random.Int()),
-						},
-						{
-							XMLName: xml.Name{
-								Local: "job_list",
-							},
-							State:       "running",
-							JBJobNumber: int64(random.Int()),
-							JATPriority: random.Float64(),
-							JobName:     "Job-" + strconv.Itoa(random.Int()),
-							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
-							Slots:       int32(random.Int()),
-						},
-						{
-							XMLName: xml.Name{
-								Local: "job_list",
-							},
-							State:       "running",
-							JBJobNumber: int64(random.Int()),
-							JATPriority: random.Float64(),
-							JobName:     "Job-" + strconv.Itoa(random.Int()),
-							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
-							Slots:       int32(random.Int()),
-						},
-						{
-							XMLName: xml.Name{
-								Local: "job_list",
-							},
-							State:       "running",
-							JBJobNumber: int64(random.Int()),
-							JATPriority: random.Float64(),
-							JobName:     "Job-" + strconv.Itoa(random.Int()),
-							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
-							Slots:       int32(random.Int()),
-						},
-						{
-							XMLName: xml.Name{
-								Local: "job_list",
-							},
-							State:       "",
-							JBJobNumber: int64(random.Int()),
-							JATPriority: random.Float64(),
-							JobName:     "Job-" + strconv.Itoa(random.Int()),
-							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
-							Slots:       int32(random.Int()),
-						},
-						{
-							XMLName: xml.Name{
-								Local: "job_list",
-							},
-							JBJobNumber: int64(random.Int()),
-							JATPriority: random.Float64(),
-							JobName:     "Job-" + strconv.Itoa(random.Int()),
-							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
-							Slots:       int32(random.Int()),
+							JBJobNumber: 1,
+							JATPriority: 1,
+							JobName:     "Second-Host-Job",
+							JobOwner:    "Owner",
+							Slots:       14,
 						},
 					},
 				},
