@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"encoding/xml"
-	"errors"
 	"fmt"
 	"github.com/metrumresearchgroup/gogridengine"
 	"github.com/prometheus/client_golang/prometheus"
@@ -60,17 +59,17 @@ func newGridEngine() *GridEngine {
 			[]string{"hostname"},
 			nil),
 		UsedMemory: prometheus.NewDesc(
-			"used_memory_bytes",
+			"sge_used_memory_bytes",
 			"Number of bytes in used memory",
 			[]string{"hostname"},
 			nil),
 		TotalMemory: prometheus.NewDesc(
-			"total_memory_bytes",
+			"sge_total_memory_bytes",
 			"Number of bytes in total memory",
 			[]string{"hostname"},
 			nil),
 		CPUUtilization: prometheus.NewDesc(
-			"cpu_utilization_percent",
+			"sge_cpu_utilization_percent",
 			"Decimal representing total CPU utilization on host",
 			[]string{"hostname"},
 			nil),
@@ -142,7 +141,9 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 
 		if err != nil {
 			log.Error("There was an error extracting Free Memory from the resource list", err)
-			return
+			FreeMemory = gogridengine.StorageValue{
+				Bytes: 0,
+			}
 		}
 
 		ch <- prometheus.MustNewConstMetric(collector.FreeMemory, prometheus.GaugeValue, float64(FreeMemory.Bytes), hostname)
@@ -151,7 +152,9 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 
 		if err != nil {
 			log.Error("There was an error extracting Used Memory from the resource list", err)
-			return
+			UsedMemory = gogridengine.StorageValue{
+				Bytes: 0,
+			}
 		}
 
 		ch <- prometheus.MustNewConstMetric(collector.UsedMemory, prometheus.GaugeValue, float64(UsedMemory.Bytes), hostname)
@@ -160,7 +163,9 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 
 		if err != nil {
 			log.Error("There was an error extracting Total Memory from the resource list", err)
-			return
+			TotalMemory = gogridengine.StorageValue{
+				Bytes: 0,
+			}
 		}
 
 		ch <- prometheus.MustNewConstMetric(collector.TotalMemory, prometheus.GaugeValue, float64(TotalMemory.Bytes), hostname)
@@ -168,8 +173,8 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 		CPUUtilization, err := ql.Resources.CPU()
 
 		if err != nil {
-			log.Error("There was an error extracting CPU Utilization from the resourc elist", err)
-			return
+			log.Error("There was an error extracting CPU Utilization from the resource list", err)
+			CPUUtilization = 0
 		}
 
 		ch <- prometheus.MustNewConstMetric(collector.CPUUtilization, prometheus.GaugeValue, CPUUtilization, hostname)
@@ -333,6 +338,116 @@ func generatedQstatOputput() (string, error) {
 							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
 							Slots:       int32(random.Int()),
 						},
+						{
+							XMLName: xml.Name{
+								Local: "job_list",
+							},
+							State:       "",
+							JBJobNumber: int64(random.Int()),
+							JATPriority: random.Float64(),
+							JobName:     "Job-" + strconv.Itoa(random.Int()),
+							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
+							Slots:       int32(random.Int()),
+						},
+						{
+							XMLName: xml.Name{
+								Local: "job_list",
+							},
+							JBJobNumber: int64(random.Int()),
+							JATPriority: random.Float64(),
+							JobName:     "Job-" + strconv.Itoa(random.Int()),
+							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
+							Slots:       int32(random.Int()),
+						},
+					},
+				},
+				{
+					XMLName: xml.Name{
+						Local: "Queue-List",
+					},
+					Name:          "all.q@testing.second", //Always needs the @ symbol
+					SlotsTotal:    int32(random.Int()),
+					SlotsUsed:     int32(random.Int()),
+					SlotsReserved: int32(random.Int()),
+					LoadAverage:   float64(random.Float64()),
+					Resources:     gogridengine.ResourceList{},
+					JobList: []gogridengine.JobList{
+						{
+							XMLName: xml.Name{
+								Local: "job_list",
+							},
+							State:       "running",
+							JBJobNumber: int64(random.Int()),
+							JATPriority: random.Float64(),
+							JobName:     "Job-" + strconv.Itoa(random.Int()),
+							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
+							Slots:       3,
+						},
+						{
+							XMLName: xml.Name{
+								Local: "job_list",
+							},
+							State:       "running",
+							JBJobNumber: int64(random.Int()),
+							JATPriority: random.Float64(),
+							JobName:     "Job-" + strconv.Itoa(random.Int()),
+							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
+							Slots:       int32(random.Int()),
+						},
+						{
+							XMLName: xml.Name{
+								Local: "job_list",
+							},
+							State:       "running",
+							JBJobNumber: int64(random.Int()),
+							JATPriority: random.Float64(),
+							JobName:     "Job-" + strconv.Itoa(random.Int()),
+							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
+							Slots:       int32(random.Int()),
+						},
+						{
+							XMLName: xml.Name{
+								Local: "job_list",
+							},
+							State:       "running",
+							JBJobNumber: int64(random.Int()),
+							JATPriority: random.Float64(),
+							JobName:     "Job-" + strconv.Itoa(random.Int()),
+							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
+							Slots:       int32(random.Int()),
+						},
+						{
+							XMLName: xml.Name{
+								Local: "job_list",
+							},
+							State:       "running",
+							JBJobNumber: int64(random.Int()),
+							JATPriority: random.Float64(),
+							JobName:     "Job-" + strconv.Itoa(random.Int()),
+							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
+							Slots:       int32(random.Int()),
+						},
+						{
+							XMLName: xml.Name{
+								Local: "job_list",
+							},
+							State:       "",
+							JBJobNumber: int64(random.Int()),
+							JATPriority: random.Float64(),
+							JobName:     "Job-" + strconv.Itoa(random.Int()),
+							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
+							Slots:       int32(random.Int()),
+						},
+						{
+							XMLName: xml.Name{
+								Local: "job_list",
+							},
+							JBJobNumber: int64(random.Int()),
+							JATPriority: random.Float64(),
+							JobName:     "Job-" + strconv.Itoa(random.Int()),
+							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
+							Slots:       int32(random.Int()),
+						},
 					},
 				},
 			},
@@ -342,20 +457,7 @@ func generatedQstatOputput() (string, error) {
 	return ji.GetXML()
 }
 
-func getStringValueFromResourceList(DesiredKey string, r gogridengine.ResourceList) (string, error) {
-	for _, v := range r {
-		if v.Name == DesiredKey {
-			return v.Value, nil
-		}
-	}
-
-	return "", errors.New("Unable to locate a resource for the provided key")
-}
-
 func isJobRunning(job gogridengine.JobList) int {
-	if job.State == "" {
-		return 0
-	}
 
 	if job.State == "running" {
 		return 1
