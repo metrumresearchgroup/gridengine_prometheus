@@ -16,7 +16,7 @@
     "gnetId": null,
     "graphTooltip": 0,
     "id": 1,
-    "iteration": 1569347202189,
+    "iteration": 1569347202197,
     "links": [],
     "panels": [
       {
@@ -128,12 +128,12 @@
       },
       {
         "aliasColors": {},
-        "bars": true,
+        "bars": false,
         "dashLength": 10,
         "dashes": false,
         "description": "Provides memory utilization details for the specified host",
         "fill": 1,
-        "fillGradient": 0,
+        "fillGradient": 2,
         "gridPos": {
           "h": 9,
           "w": 12,
@@ -150,19 +150,19 @@
           "total": false,
           "values": false
         },
-        "lines": false,
+        "lines": true,
         "linewidth": 1,
         "nullPointMode": "null",
         "options": {
           "dataLinks": []
         },
         "percentage": false,
-        "pointradius": 2,
-        "points": false,
+        "pointradius": 1,
+        "points": true,
         "renderer": "flot",
         "repeat": null,
         "repeatDirection": "h",
-        "repeatIteration": 1569347202189,
+        "repeatIteration": 1569347202197,
         "repeatPanelId": 2,
         "scopedVars": {
           "hostname": {
@@ -173,11 +173,12 @@
         },
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
             "expr": "free_memory_bytes{hostname=~\"$hostname\"} / (1000 * 1000 * 1000)",
+            "instant": false,
             "legendFormat": "Free Memory",
             "refId": "A"
           },
@@ -367,7 +368,7 @@
         "renderer": "flot",
         "repeat": null,
         "repeatDirection": "h",
-        "repeatIteration": 1569347202189,
+        "repeatIteration": 1569347202197,
         "repeatPanelId": 4,
         "scopedVars": {
           "hostname": {
@@ -501,103 +502,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "count(job_state_value{hostname=~\"$hostname\"} == 1)",
-            "instant": false,
-            "legendFormat": "{{name}}",
-            "refId": "A"
-          }
-        ],
-        "thresholds": "",
-        "timeFrom": null,
-        "timeShift": null,
-        "title": "Jobs Running on $hostname",
-        "type": "singlestat",
-        "valueFontSize": "80%",
-        "valueMaps": [
-          {
-            "op": "=",
-            "text": "N/A",
-            "value": "null"
-          }
-        ],
-        "valueName": "current"
-      },
-      {
-        "cacheTimeout": null,
-        "colorBackground": false,
-        "colorValue": false,
-        "colors": [
-          "#299c46",
-          "rgba(237, 129, 40, 0.89)",
-          "#d44a3a"
-        ],
-        "description": "Jobs currently running on host",
-        "format": "none",
-        "gauge": {
-          "maxValue": 100,
-          "minValue": 0,
-          "show": false,
-          "thresholdLabels": false,
-          "thresholdMarkers": true
-        },
-        "gridPos": {
-          "h": 5,
-          "w": 12,
-          "x": 12,
-          "y": 17
-        },
-        "id": 13,
-        "interval": null,
-        "links": [],
-        "mappingType": 1,
-        "mappingTypes": [
-          {
-            "name": "value to text",
-            "value": 1
-          },
-          {
-            "name": "range to text",
-            "value": 2
-          }
-        ],
-        "maxDataPoints": 100,
-        "nullPointMode": "connected",
-        "nullText": null,
-        "options": {},
-        "postfix": "",
-        "postfixFontSize": "50%",
-        "prefix": "",
-        "prefixFontSize": "50%",
-        "rangeMaps": [
-          {
-            "from": "null",
-            "text": "N/A",
-            "to": "null"
-          }
-        ],
-        "repeat": null,
-        "repeatDirection": "h",
-        "repeatIteration": 1569347202189,
-        "repeatPanelId": 7,
-        "scopedVars": {
-          "hostname": {
-            "selected": false,
-            "text": "testing.second",
-            "value": "testing.second"
-          }
-        },
-        "sparkline": {
-          "fillColor": "rgba(31, 118, 189, 0.18)",
-          "full": false,
-          "lineColor": "rgb(31, 120, 193)",
-          "show": false,
-          "ymax": null,
-          "ymin": null
-        },
-        "tableColumn": "",
-        "targets": [
-          {
-            "expr": "count(job_state_value{hostname=~\"$hostname\"} == 1)",
+            "expr": "count(job_state_value{hostname=~\"$hostname\", owner=~\"$Owner\"} == 1)",
             "instant": false,
             "legendFormat": "{{name}}",
             "refId": "A"
@@ -640,7 +545,7 @@
           "h": 5,
           "w": 12,
           "x": 12,
-          "y": 22
+          "y": 17
         },
         "id": 8,
         "interval": null,
@@ -683,7 +588,7 @@
         "tableColumn": "",
         "targets": [
           {
-            "expr": "count(job_state_value{hostname=~\"$hostname\"} == 0)",
+            "expr": "count(job_state_value{hostname=~\"$hostname\", owner=~\"$Owner\"} == 0)",
             "instant": false,
             "legendFormat": "{{name}}",
             "refId": "A"
@@ -705,6 +610,102 @@
             "op": "=",
             "text": "0",
             "value": ""
+          }
+        ],
+        "valueName": "current"
+      },
+      {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "description": "Jobs currently running on host",
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 12,
+          "x": 12,
+          "y": 22
+        },
+        "id": 13,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "options": {},
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "repeat": null,
+        "repeatDirection": "h",
+        "repeatIteration": 1569347202197,
+        "repeatPanelId": 7,
+        "scopedVars": {
+          "hostname": {
+            "selected": false,
+            "text": "testing.second",
+            "value": "testing.second"
+          }
+        },
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false,
+          "ymax": null,
+          "ymin": null
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "expr": "count(job_state_value{hostname=~\"$hostname\", owner=~\"$Owner\"} == 1)",
+            "instant": false,
+            "legendFormat": "{{name}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": "",
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Jobs Running on $hostname",
+        "type": "singlestat",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
           }
         ],
         "valueName": "current"
@@ -868,6 +869,11 @@
             },
             {
               "selected": false,
+              "text": "Owner-5433974543643412968",
+              "value": "Owner-5433974543643412968"
+            },
+            {
+              "selected": false,
               "text": "Owner-1829515464210232598",
               "value": "Owner-1829515464210232598"
             },
@@ -878,18 +884,8 @@
             },
             {
               "selected": false,
-              "text": "Owner-4494387878699343791",
-              "value": "Owner-4494387878699343791"
-            },
-            {
-              "selected": false,
               "text": "Owner-3766765085372897847",
               "value": "Owner-3766765085372897847"
-            },
-            {
-              "selected": false,
-              "text": "Owner-4265558461997505512",
-              "value": "Owner-4265558461997505512"
             },
             {
               "selected": false,
@@ -898,28 +894,8 @@
             },
             {
               "selected": false,
-              "text": "Owner-2022017554821335583",
-              "value": "Owner-2022017554821335583"
-            },
-            {
-              "selected": false,
-              "text": "Owner-5847317379477640889",
-              "value": "Owner-5847317379477640889"
-            },
-            {
-              "selected": false,
-              "text": "Owner-1293955362435477555",
-              "value": "Owner-1293955362435477555"
-            },
-            {
-              "selected": false,
               "text": "Owner-4763851028599083826",
               "value": "Owner-4763851028599083826"
-            },
-            {
-              "selected": false,
-              "text": "Owner-5337848022129825961",
-              "value": "Owner-5337848022129825961"
             },
             {
               "selected": false,
@@ -928,38 +904,13 @@
             },
             {
               "selected": false,
-              "text": "Owner-5664299727968136175",
-              "value": "Owner-5664299727968136175"
+              "text": "Owner-8291255907327303027",
+              "value": "Owner-8291255907327303027"
             },
             {
               "selected": false,
-              "text": "Owner-8872266659318866958",
-              "value": "Owner-8872266659318866958"
-            },
-            {
-              "selected": false,
-              "text": "Owner-3394205887927199669",
-              "value": "Owner-3394205887927199669"
-            },
-            {
-              "selected": false,
-              "text": "Owner-3127196072411779862",
-              "value": "Owner-3127196072411779862"
-            },
-            {
-              "selected": false,
-              "text": "Owner-6114334473864557865",
-              "value": "Owner-6114334473864557865"
-            },
-            {
-              "selected": false,
-              "text": "Owner-4679076106140307207",
-              "value": "Owner-4679076106140307207"
-            },
-            {
-              "selected": false,
-              "text": "Owner-8042508319947025567",
-              "value": "Owner-8042508319947025567"
+              "text": "Owner-474583325907562913",
+              "value": "Owner-474583325907562913"
             },
             {
               "selected": false,
@@ -968,38 +919,23 @@
             },
             {
               "selected": false,
-              "text": "Owner-4327624730416258731",
-              "value": "Owner-4327624730416258731"
-            },
-            {
-              "selected": false,
               "text": "Owner-2115350932154573451",
               "value": "Owner-2115350932154573451"
             },
             {
               "selected": false,
-              "text": "Owner-973835537998638386",
-              "value": "Owner-973835537998638386"
+              "text": "Owner-8143163762228685291",
+              "value": "Owner-8143163762228685291"
             },
             {
               "selected": false,
-              "text": "Owner-8049106236601017525",
-              "value": "Owner-8049106236601017525"
+              "text": "Owner-9165429631134065105",
+              "value": "Owner-9165429631134065105"
             },
             {
               "selected": false,
               "text": "Owner-2791257657894141077",
               "value": "Owner-2791257657894141077"
-            },
-            {
-              "selected": false,
-              "text": "Owner-5073611729486086880",
-              "value": "Owner-5073611729486086880"
-            },
-            {
-              "selected": false,
-              "text": "Owner-326377637645159536",
-              "value": "Owner-326377637645159536"
             },
             {
               "selected": false,
@@ -1013,13 +949,13 @@
             },
             {
               "selected": false,
-              "text": "Owner-3463949127903576912",
-              "value": "Owner-3463949127903576912"
+              "text": "Owner-4538532923841922940",
+              "value": "Owner-4538532923841922940"
             },
             {
               "selected": false,
-              "text": "Owner-6462244259077465",
-              "value": "Owner-6462244259077465"
+              "text": "Owner-4533202832005812981",
+              "value": "Owner-4533202832005812981"
             },
             {
               "selected": false,
@@ -1028,18 +964,13 @@
             },
             {
               "selected": false,
-              "text": "Owner-4796956456438462107",
-              "value": "Owner-4796956456438462107"
-            },
-            {
-              "selected": false,
               "text": "Owner-1873047747596675804",
               "value": "Owner-1873047747596675804"
             },
             {
               "selected": false,
-              "text": "Owner-2367433393000897049",
-              "value": "Owner-2367433393000897049"
+              "text": "Owner-1526833548599948650",
+              "value": "Owner-1526833548599948650"
             },
             {
               "selected": false,
@@ -1048,18 +979,13 @@
             },
             {
               "selected": false,
-              "text": "Owner-8116559021051772889",
-              "value": "Owner-8116559021051772889"
+              "text": "Owner-5928465254663691469",
+              "value": "Owner-5928465254663691469"
             },
             {
               "selected": false,
-              "text": "Owner-6348178303879983003",
-              "value": "Owner-6348178303879983003"
-            },
-            {
-              "selected": false,
-              "text": "Owner-8392106964232230335",
-              "value": "Owner-8392106964232230335"
+              "text": "Owner-2096792727040606753",
+              "value": "Owner-2096792727040606753"
             },
             {
               "selected": false,
@@ -1068,43 +994,13 @@
             },
             {
               "selected": false,
-              "text": "Owner-7520199528581805965",
-              "value": "Owner-7520199528581805965"
+              "text": "Owner-852202454660281867",
+              "value": "Owner-852202454660281867"
             },
             {
               "selected": false,
-              "text": "Owner-3052052893834727594",
-              "value": "Owner-3052052893834727594"
-            },
-            {
-              "selected": false,
-              "text": "Owner-3819958878539474045",
-              "value": "Owner-3819958878539474045"
-            },
-            {
-              "selected": false,
-              "text": "Owner-5465514520444501216",
-              "value": "Owner-5465514520444501216"
-            },
-            {
-              "selected": false,
-              "text": "Owner-3861315452166202922",
-              "value": "Owner-3861315452166202922"
-            },
-            {
-              "selected": false,
-              "text": "Owner-1701632094934050707",
-              "value": "Owner-1701632094934050707"
-            },
-            {
-              "selected": false,
-              "text": "Owner-1796873882334840509",
-              "value": "Owner-1796873882334840509"
-            },
-            {
-              "selected": false,
-              "text": "Owner-7842004880117420417",
-              "value": "Owner-7842004880117420417"
+              "text": "Owner-664196853427749459",
+              "value": "Owner-664196853427749459"
             },
             {
               "selected": false,
@@ -1113,63 +1009,18 @@
             },
             {
               "selected": false,
-              "text": "Owner-9096017566904826400",
-              "value": "Owner-9096017566904826400"
-            },
-            {
-              "selected": false,
               "text": "Owner-2695702643088518018",
               "value": "Owner-2695702643088518018"
             },
             {
               "selected": false,
-              "text": "Owner-913690915243354692",
-              "value": "Owner-913690915243354692"
+              "text": "Owner-2178715229968584671",
+              "value": "Owner-2178715229968584671"
             },
             {
               "selected": false,
-              "text": "Owner-6255352396533435864",
-              "value": "Owner-6255352396533435864"
-            },
-            {
-              "selected": false,
-              "text": "Owner-4272330216526710878",
-              "value": "Owner-4272330216526710878"
-            },
-            {
-              "selected": false,
-              "text": "Owner-5898338345845851417",
-              "value": "Owner-5898338345845851417"
-            },
-            {
-              "selected": false,
-              "text": "Owner-336504912407914330",
-              "value": "Owner-336504912407914330"
-            },
-            {
-              "selected": false,
-              "text": "Owner-3612787560905060613",
-              "value": "Owner-3612787560905060613"
-            },
-            {
-              "selected": false,
-              "text": "Owner-6915349659974906300",
-              "value": "Owner-6915349659974906300"
-            },
-            {
-              "selected": false,
-              "text": "Owner-7007439618800672031",
-              "value": "Owner-7007439618800672031"
-            },
-            {
-              "selected": false,
-              "text": "Owner-1524642618642941004",
-              "value": "Owner-1524642618642941004"
-            },
-            {
-              "selected": false,
-              "text": "Owner-4925433799106507315",
-              "value": "Owner-4925433799106507315"
+              "text": "Owner-1220263502920368001",
+              "value": "Owner-1220263502920368001"
             },
             {
               "selected": false,
@@ -1211,5 +1062,5 @@
     "timezone": "",
     "title": "Sun Grid Engine",
     "uid": "EMc73BpZz",
-    "version": 10
+    "version": 11
   }
