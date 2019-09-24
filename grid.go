@@ -220,7 +220,7 @@ func qStatFromExec() (string, error) {
 	return output.String(), nil
 }
 
-func generatedQstatOputput() (string, error) {
+func generatedQstatOputput() (string, error) { //NOSONAR
 
 	ji := gogridengine.JobInfo{
 		XMLName: xml.Name{
@@ -242,19 +242,19 @@ func generatedQstatOputput() (string, error) {
 					LoadAverage:   float64(random.Float64()),
 					Resources: gogridengine.ResourceList{
 						{
-							Name:  "load_average",
-							Type:  "hl",
-							Value: fmt.Sprintf("%f", random.Float64()),
+							Name:  "load_average",                      //NOSONAR
+							Type:  "hl",                                //NOSONAR
+							Value: fmt.Sprintf("%f", random.Float64()), //NOSONAR
 						},
 						{
-							Name:  "num_proc",
-							Type:  "ag",
-							Value: strconv.Itoa(random.Int()),
+							Name:  "num_proc",                 //NOSONAR
+							Type:  "ag",                       //NOSONAR
+							Value: strconv.Itoa(random.Int()), //NOSONAR
 						},
 						{
-							Name:  "mem_free",
-							Type:  "af",
-							Value: fmt.Sprintf("%f", random.Float64()) + "M",
+							Name:  "mem_free",                                //NOSONAR
+							Type:  "af",                                      //NOSONAR
+							Value: fmt.Sprintf("%f", random.Float64()) + "G", //NOSONAR
 						},
 						{
 							Name:  "swap_free",
@@ -264,7 +264,7 @@ func generatedQstatOputput() (string, error) {
 						{
 							Name:  "virtual_free",
 							Type:  "ad",
-							Value: fmt.Sprintf("%f", random.Float64()) + "T",
+							Value: fmt.Sprintf("%f", random.Float64()) + "G",
 						},
 						{
 							Name:  "mem_used",
@@ -274,7 +274,7 @@ func generatedQstatOputput() (string, error) {
 						{
 							Name:  "mem_total",
 							Type:  "ab",
-							Value: fmt.Sprintf("%f", random.Float64()) + "M",
+							Value: fmt.Sprintf("%f", random.Float64()) + "G",
 						},
 						{
 							Name:  "cpu",
