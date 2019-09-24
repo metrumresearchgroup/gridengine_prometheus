@@ -33,3 +33,13 @@ With these labels, it should be easy to create variable driven dashboards to all
 
 ## Testing
 For the sake of testing, there's an environment variable called `TEST` that if set to `"true"`, will cause the collector to bypass trying to run the command line output and generate XML (2 instances) with some static and some invalid information. The invalid information is for unit testing purposes, but also to ensure that base values are still reported by the collector. This is exceptionally beneficial if you're looking to write custom grafana dashboards, as you can setup prometheus, the collector, and grafana in a local compose instance to basically consume generated data. 
+
+## Grafana
+
+If you want to work with grafana or try the existing dashboards, the docker-compose file in this directory will setup :
+
+* Prometheus
+* Grafana
+* Exporter
+
+The exporter will be running in test mode and will generate a mix of static / non-static content. Prometheus is auto configured to scrape the exporter by name, and grafana is set with the magical username / pass of "admin / admin" although it'll make you change it on first setup. 

@@ -1,0 +1,1215 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "id": 1,
+    "iteration": 1569347202189,
+    "links": [],
+    "panels": [
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "description": "Provides memory utilization details for the specified host",
+        "fill": 1,
+        "fillGradient": 2,
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "id": 2,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pointradius": 1,
+        "points": true,
+        "renderer": "flot",
+        "repeat": "hostname",
+        "repeatDirection": "h",
+        "scopedVars": {
+          "hostname": {
+            "selected": false,
+            "text": "testing.local",
+            "value": "testing.local"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "free_memory_bytes{hostname=~\"$hostname\"} / (1000 * 1000 * 1000)",
+            "instant": false,
+            "legendFormat": "Free Memory",
+            "refId": "A"
+          },
+          {
+            "expr": "sge_total_memory_bytes{hostname=~\"$hostname\"} / (1000 * 1000 * 1000)",
+            "instant": false,
+            "legendFormat": "Total Memory",
+            "refId": "B"
+          },
+          {
+            "expr": "sge_used_memory_bytes{hostname=~\"$hostname\"} / (1000 * 1000 * 1000)",
+            "legendFormat": "Used Memory",
+            "refId": "D"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Memory Utilization By Host $hostname",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": true,
+        "dashLength": 10,
+        "dashes": false,
+        "description": "Provides memory utilization details for the specified host",
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 9,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 11,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": false,
+        "linewidth": 1,
+        "nullPointMode": "null",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeat": null,
+        "repeatDirection": "h",
+        "repeatIteration": 1569347202189,
+        "repeatPanelId": 2,
+        "scopedVars": {
+          "hostname": {
+            "selected": false,
+            "text": "testing.second",
+            "value": "testing.second"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": true,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "free_memory_bytes{hostname=~\"$hostname\"} / (1000 * 1000 * 1000)",
+            "legendFormat": "Free Memory",
+            "refId": "A"
+          },
+          {
+            "expr": "sge_total_memory_bytes{hostname=~\"$hostname\"} / (1000 * 1000 * 1000)",
+            "instant": false,
+            "legendFormat": "Total Memory",
+            "refId": "B"
+          },
+          {
+            "expr": "sge_used_memory_bytes{hostname=~\"$hostname\"} / (1000 * 1000 * 1000)",
+            "legendFormat": "Used Memory",
+            "refId": "D"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Memory Utilization By Host $hostname",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "description": "",
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 9
+        },
+        "id": 4,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "maxPerRow": 4,
+        "nullPointMode": "null",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeat": "hostname",
+        "repeatDirection": "h",
+        "scopedVars": {
+          "hostname": {
+            "selected": false,
+            "text": "testing.local",
+            "value": "testing.local"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "sge_cpu_utilization_percent{hostname=~\"$hostname\"}",
+            "legendFormat": "CPU Utilization",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "CPU Utilization for host $hostname",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "description": "",
+        "fill": 3,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 9
+        },
+        "id": 12,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "maxPerRow": 4,
+        "nullPointMode": "null",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "repeat": null,
+        "repeatDirection": "h",
+        "repeatIteration": 1569347202189,
+        "repeatPanelId": 4,
+        "scopedVars": {
+          "hostname": {
+            "selected": false,
+            "text": "testing.second",
+            "value": "testing.second"
+          }
+        },
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "sge_cpu_utilization_percent{hostname=~\"$hostname\"}",
+            "legendFormat": "CPU Utilization",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "CPU Utilization for host $hostname",
+        "tooltip": {
+          "shared": true,
+          "sort": 0,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      },
+      {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "description": "Jobs currently running on host",
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 12,
+          "x": 0,
+          "y": 17
+        },
+        "id": 7,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "options": {},
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "repeat": "hostname",
+        "repeatDirection": "h",
+        "scopedVars": {
+          "hostname": {
+            "selected": false,
+            "text": "testing.local",
+            "value": "testing.local"
+          }
+        },
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false,
+          "ymax": null,
+          "ymin": null
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "expr": "count(job_state_value{hostname=~\"$hostname\"} == 1)",
+            "instant": false,
+            "legendFormat": "{{name}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": "",
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Jobs Running on $hostname",
+        "type": "singlestat",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "current"
+      },
+      {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "description": "Jobs currently running on host",
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 12,
+          "x": 12,
+          "y": 17
+        },
+        "id": 13,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "options": {},
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "repeat": null,
+        "repeatDirection": "h",
+        "repeatIteration": 1569347202189,
+        "repeatPanelId": 7,
+        "scopedVars": {
+          "hostname": {
+            "selected": false,
+            "text": "testing.second",
+            "value": "testing.second"
+          }
+        },
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false,
+          "ymax": null,
+          "ymin": null
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "expr": "count(job_state_value{hostname=~\"$hostname\"} == 1)",
+            "instant": false,
+            "legendFormat": "{{name}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": "",
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Jobs Running on $hostname",
+        "type": "singlestat",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "N/A",
+            "value": "null"
+          }
+        ],
+        "valueName": "current"
+      },
+      {
+        "cacheTimeout": null,
+        "colorBackground": false,
+        "colorValue": false,
+        "colors": [
+          "#299c46",
+          "rgba(237, 129, 40, 0.89)",
+          "#d44a3a"
+        ],
+        "description": "Jobs currently not running on host",
+        "format": "none",
+        "gauge": {
+          "maxValue": 100,
+          "minValue": 0,
+          "show": false,
+          "thresholdLabels": false,
+          "thresholdMarkers": true
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 12,
+          "x": 12,
+          "y": 22
+        },
+        "id": 8,
+        "interval": null,
+        "links": [],
+        "mappingType": 1,
+        "mappingTypes": [
+          {
+            "name": "value to text",
+            "value": 1
+          },
+          {
+            "name": "range to text",
+            "value": 2
+          }
+        ],
+        "maxDataPoints": 100,
+        "nullPointMode": "connected",
+        "nullText": null,
+        "options": {},
+        "postfix": "",
+        "postfixFontSize": "50%",
+        "prefix": "",
+        "prefixFontSize": "50%",
+        "rangeMaps": [
+          {
+            "from": "null",
+            "text": "N/A",
+            "to": "null"
+          }
+        ],
+        "repeatDirection": "h",
+        "sparkline": {
+          "fillColor": "rgba(31, 118, 189, 0.18)",
+          "full": false,
+          "lineColor": "rgb(31, 120, 193)",
+          "show": false,
+          "ymax": null,
+          "ymin": null
+        },
+        "tableColumn": "",
+        "targets": [
+          {
+            "expr": "count(job_state_value{hostname=~\"$hostname\"} == 0)",
+            "instant": false,
+            "legendFormat": "{{name}}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": "",
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Jobs Not running on $hostname",
+        "type": "singlestat",
+        "valueFontSize": "80%",
+        "valueMaps": [
+          {
+            "op": "=",
+            "text": "0",
+            "value": "null"
+          },
+          {
+            "op": "=",
+            "text": "0",
+            "value": ""
+          }
+        ],
+        "valueName": "current"
+      },
+      {
+        "aliasColors": {},
+        "bars": false,
+        "dashLength": 10,
+        "dashes": false,
+        "fill": 1,
+        "fillGradient": 0,
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 27
+        },
+        "id": 10,
+        "legend": {
+          "avg": false,
+          "current": false,
+          "max": false,
+          "min": false,
+          "show": true,
+          "total": false,
+          "values": false
+        },
+        "lines": true,
+        "linewidth": 1,
+        "nullPointMode": "null as zero",
+        "options": {
+          "dataLinks": []
+        },
+        "percentage": false,
+        "pointradius": 2,
+        "points": false,
+        "renderer": "flot",
+        "seriesOverrides": [],
+        "spaceLength": 10,
+        "stack": false,
+        "steppedLine": false,
+        "targets": [
+          {
+            "expr": "job_priority_value{hostname=~\"$hostname\", owner=~\"$Owner\"}",
+            "refId": "A"
+          }
+        ],
+        "thresholds": [],
+        "timeFrom": null,
+        "timeRegions": [],
+        "timeShift": null,
+        "title": "Job Priority Values: $hostname, $Owner",
+        "tooltip": {
+          "shared": true,
+          "sort": 2,
+          "value_type": "individual"
+        },
+        "type": "graph",
+        "xaxis": {
+          "buckets": null,
+          "mode": "time",
+          "name": null,
+          "show": true,
+          "values": []
+        },
+        "yaxes": [
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          },
+          {
+            "format": "short",
+            "label": null,
+            "logBase": 1,
+            "max": null,
+            "min": null,
+            "show": true
+          }
+        ],
+        "yaxis": {
+          "align": false,
+          "alignLevel": null
+        }
+      }
+    ],
+    "refresh": false,
+    "schemaVersion": 19,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "allValue": null,
+          "current": {
+            "tags": [],
+            "text": "All",
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": "Prometheus",
+          "definition": "label_values(free_memory_bytes,hostname)",
+          "hide": 0,
+          "includeAll": true,
+          "label": null,
+          "multi": true,
+          "name": "hostname",
+          "options": [
+            {
+              "selected": true,
+              "text": "All",
+              "value": "$__all"
+            },
+            {
+              "selected": false,
+              "text": "testing.local",
+              "value": "testing.local"
+            },
+            {
+              "selected": false,
+              "text": "testing.second",
+              "value": "testing.second"
+            }
+          ],
+          "query": "label_values(free_memory_bytes,hostname)",
+          "refresh": 0,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 1,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        },
+        {
+          "allValue": null,
+          "current": {
+            "tags": [],
+            "text": "All",
+            "value": [
+              "$__all"
+            ]
+          },
+          "datasource": "Prometheus",
+          "definition": "label_values(job_priority_value{hostname=~\"$hostname\"},owner)",
+          "hide": 0,
+          "includeAll": true,
+          "label": null,
+          "multi": true,
+          "name": "Owner",
+          "options": [
+            {
+              "selected": true,
+              "text": "All",
+              "value": "$__all"
+            },
+            {
+              "selected": false,
+              "text": "Owner-1829515464210232598",
+              "value": "Owner-1829515464210232598"
+            },
+            {
+              "selected": false,
+              "text": "Owner-3560899470807336022",
+              "value": "Owner-3560899470807336022"
+            },
+            {
+              "selected": false,
+              "text": "Owner-4494387878699343791",
+              "value": "Owner-4494387878699343791"
+            },
+            {
+              "selected": false,
+              "text": "Owner-3766765085372897847",
+              "value": "Owner-3766765085372897847"
+            },
+            {
+              "selected": false,
+              "text": "Owner-4265558461997505512",
+              "value": "Owner-4265558461997505512"
+            },
+            {
+              "selected": false,
+              "text": "Owner-4621007546345323928",
+              "value": "Owner-4621007546345323928"
+            },
+            {
+              "selected": false,
+              "text": "Owner-2022017554821335583",
+              "value": "Owner-2022017554821335583"
+            },
+            {
+              "selected": false,
+              "text": "Owner-5847317379477640889",
+              "value": "Owner-5847317379477640889"
+            },
+            {
+              "selected": false,
+              "text": "Owner-1293955362435477555",
+              "value": "Owner-1293955362435477555"
+            },
+            {
+              "selected": false,
+              "text": "Owner-4763851028599083826",
+              "value": "Owner-4763851028599083826"
+            },
+            {
+              "selected": false,
+              "text": "Owner-5337848022129825961",
+              "value": "Owner-5337848022129825961"
+            },
+            {
+              "selected": false,
+              "text": "Owner-1601469216003288747",
+              "value": "Owner-1601469216003288747"
+            },
+            {
+              "selected": false,
+              "text": "Owner-5664299727968136175",
+              "value": "Owner-5664299727968136175"
+            },
+            {
+              "selected": false,
+              "text": "Owner-8872266659318866958",
+              "value": "Owner-8872266659318866958"
+            },
+            {
+              "selected": false,
+              "text": "Owner-3394205887927199669",
+              "value": "Owner-3394205887927199669"
+            },
+            {
+              "selected": false,
+              "text": "Owner-3127196072411779862",
+              "value": "Owner-3127196072411779862"
+            },
+            {
+              "selected": false,
+              "text": "Owner-6114334473864557865",
+              "value": "Owner-6114334473864557865"
+            },
+            {
+              "selected": false,
+              "text": "Owner-4679076106140307207",
+              "value": "Owner-4679076106140307207"
+            },
+            {
+              "selected": false,
+              "text": "Owner-8042508319947025567",
+              "value": "Owner-8042508319947025567"
+            },
+            {
+              "selected": false,
+              "text": "Owner-6088868020182415343",
+              "value": "Owner-6088868020182415343"
+            },
+            {
+              "selected": false,
+              "text": "Owner-4327624730416258731",
+              "value": "Owner-4327624730416258731"
+            },
+            {
+              "selected": false,
+              "text": "Owner-2115350932154573451",
+              "value": "Owner-2115350932154573451"
+            },
+            {
+              "selected": false,
+              "text": "Owner-973835537998638386",
+              "value": "Owner-973835537998638386"
+            },
+            {
+              "selected": false,
+              "text": "Owner-8049106236601017525",
+              "value": "Owner-8049106236601017525"
+            },
+            {
+              "selected": false,
+              "text": "Owner-2791257657894141077",
+              "value": "Owner-2791257657894141077"
+            },
+            {
+              "selected": false,
+              "text": "Owner-5073611729486086880",
+              "value": "Owner-5073611729486086880"
+            },
+            {
+              "selected": false,
+              "text": "Owner-326377637645159536",
+              "value": "Owner-326377637645159536"
+            },
+            {
+              "selected": false,
+              "text": "Owner-7748306522925228785",
+              "value": "Owner-7748306522925228785"
+            },
+            {
+              "selected": false,
+              "text": "Owner-4818757027412330253",
+              "value": "Owner-4818757027412330253"
+            },
+            {
+              "selected": false,
+              "text": "Owner-3463949127903576912",
+              "value": "Owner-3463949127903576912"
+            },
+            {
+              "selected": false,
+              "text": "Owner-6462244259077465",
+              "value": "Owner-6462244259077465"
+            },
+            {
+              "selected": false,
+              "text": "Owner-1382946542082884106",
+              "value": "Owner-1382946542082884106"
+            },
+            {
+              "selected": false,
+              "text": "Owner-4796956456438462107",
+              "value": "Owner-4796956456438462107"
+            },
+            {
+              "selected": false,
+              "text": "Owner-1873047747596675804",
+              "value": "Owner-1873047747596675804"
+            },
+            {
+              "selected": false,
+              "text": "Owner-2367433393000897049",
+              "value": "Owner-2367433393000897049"
+            },
+            {
+              "selected": false,
+              "text": "Owner-3762656774504883913",
+              "value": "Owner-3762656774504883913"
+            },
+            {
+              "selected": false,
+              "text": "Owner-8116559021051772889",
+              "value": "Owner-8116559021051772889"
+            },
+            {
+              "selected": false,
+              "text": "Owner-6348178303879983003",
+              "value": "Owner-6348178303879983003"
+            },
+            {
+              "selected": false,
+              "text": "Owner-8392106964232230335",
+              "value": "Owner-8392106964232230335"
+            },
+            {
+              "selected": false,
+              "text": "Owner-657222761687103773",
+              "value": "Owner-657222761687103773"
+            },
+            {
+              "selected": false,
+              "text": "Owner-7520199528581805965",
+              "value": "Owner-7520199528581805965"
+            },
+            {
+              "selected": false,
+              "text": "Owner-3052052893834727594",
+              "value": "Owner-3052052893834727594"
+            },
+            {
+              "selected": false,
+              "text": "Owner-3819958878539474045",
+              "value": "Owner-3819958878539474045"
+            },
+            {
+              "selected": false,
+              "text": "Owner-5465514520444501216",
+              "value": "Owner-5465514520444501216"
+            },
+            {
+              "selected": false,
+              "text": "Owner-3861315452166202922",
+              "value": "Owner-3861315452166202922"
+            },
+            {
+              "selected": false,
+              "text": "Owner-1701632094934050707",
+              "value": "Owner-1701632094934050707"
+            },
+            {
+              "selected": false,
+              "text": "Owner-1796873882334840509",
+              "value": "Owner-1796873882334840509"
+            },
+            {
+              "selected": false,
+              "text": "Owner-7842004880117420417",
+              "value": "Owner-7842004880117420417"
+            },
+            {
+              "selected": false,
+              "text": "Owner-6688654130405009457",
+              "value": "Owner-6688654130405009457"
+            },
+            {
+              "selected": false,
+              "text": "Owner-9096017566904826400",
+              "value": "Owner-9096017566904826400"
+            },
+            {
+              "selected": false,
+              "text": "Owner-2695702643088518018",
+              "value": "Owner-2695702643088518018"
+            },
+            {
+              "selected": false,
+              "text": "Owner-913690915243354692",
+              "value": "Owner-913690915243354692"
+            },
+            {
+              "selected": false,
+              "text": "Owner-6255352396533435864",
+              "value": "Owner-6255352396533435864"
+            },
+            {
+              "selected": false,
+              "text": "Owner-4272330216526710878",
+              "value": "Owner-4272330216526710878"
+            },
+            {
+              "selected": false,
+              "text": "Owner-5898338345845851417",
+              "value": "Owner-5898338345845851417"
+            },
+            {
+              "selected": false,
+              "text": "Owner-336504912407914330",
+              "value": "Owner-336504912407914330"
+            },
+            {
+              "selected": false,
+              "text": "Owner-3612787560905060613",
+              "value": "Owner-3612787560905060613"
+            },
+            {
+              "selected": false,
+              "text": "Owner-6915349659974906300",
+              "value": "Owner-6915349659974906300"
+            },
+            {
+              "selected": false,
+              "text": "Owner-7007439618800672031",
+              "value": "Owner-7007439618800672031"
+            },
+            {
+              "selected": false,
+              "text": "Owner-1524642618642941004",
+              "value": "Owner-1524642618642941004"
+            },
+            {
+              "selected": false,
+              "text": "Owner-4925433799106507315",
+              "value": "Owner-4925433799106507315"
+            },
+            {
+              "selected": false,
+              "text": "Owner",
+              "value": "Owner"
+            }
+          ],
+          "query": "label_values(job_priority_value{hostname=~\"$hostname\"},owner)",
+          "refresh": 0,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "tagValuesQuery": "",
+          "tags": [],
+          "tagsQuery": "",
+          "type": "query",
+          "useTags": false
+        }
+      ]
+    },
+    "time": {
+      "from": "now-15m",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ]
+    },
+    "timezone": "",
+    "title": "Sun Grid Engine",
+    "uid": "EMc73BpZz",
+    "version": 10
+  }

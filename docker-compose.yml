@@ -1,0 +1,19 @@
+version: '3'
+services:
+  exporter:
+    build: .
+    ports:
+      - "9081:9081"
+    command: "-pidfile /tmp/meow.pid"
+    environment:
+      TEST: "true"
+  prometheus:
+    image: "prom/prometheus"
+    volumes:
+      - ./prometheus/prom.yml:/etc/prometheus/prometheus.yml
+  grafana:
+    image: "grafana/grafana"
+    ports:
+      - "3000:3000"
+    environment: 
+      GF_SECURITY_ADMIN_PASSWORD: "admin"
