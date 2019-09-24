@@ -220,7 +220,7 @@ func qStatFromExec() (string, error) {
 	return output.String(), nil
 }
 
-func generatedQstatOputput() (string, error) { //NOSONAR
+func generatedQstatOputput() (string, error) {
 
 	ji := gogridengine.JobInfo{
 		XMLName: xml.Name{
@@ -242,19 +242,19 @@ func generatedQstatOputput() (string, error) { //NOSONAR
 					LoadAverage:   float64(random.Float64()),
 					Resources: gogridengine.ResourceList{
 						{
-							Name:  "load_average",                      //NOSONAR
-							Type:  "hl",                                //NOSONAR
-							Value: fmt.Sprintf("%f", random.Float64()), //NOSONAR
+							Name:  "load_average",
+							Type:  "hl",
+							Value: fmt.Sprintf("%f", random.Float64()),
 						},
 						{
-							Name:  "num_proc",                 //NOSONAR
-							Type:  "ag",                       //NOSONAR
-							Value: strconv.Itoa(random.Int()), //NOSONAR
+							Name:  "num_proc",
+							Type:  "ag",
+							Value: strconv.Itoa(random.Int()),
 						},
 						{
-							Name:  "mem_free",                                //NOSONAR
-							Type:  "af",                                      //NOSONAR
-							Value: fmt.Sprintf("%f", random.Float64()) + "G", //NOSONAR
+							Name:  "mem_free",
+							Type:  "af",
+							Value: fmt.Sprintf("%f", random.Float64()) + "G",
 						},
 						{
 							Name:  "swap_free",
