@@ -1,3 +1,7 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=metrumresearchgroup_gridengine_prometheus&metric=alert_status)](https://sonarcloud.io/dashboard?id=metrumresearchgroup_gridengine_prometheus)
+
+[![Coverage Status](https://coveralls.io/repos/github/metrumresearchgroup/gridengine_prometheus/badge.svg?branch=master)](https://coveralls.io/github/metrumresearchgroup/gridengine_prometheus?branch=master)
+
 # Prometheus Exporter for Sun Grid Engine
 
 This is a Prometheus exporter for the Sun Grid Engine meant to be run on your master nodes. It utilizes Qstat on the command line and uses the gogridengine library to serialize its XML output into native objects and then format for prometheus consumption.
