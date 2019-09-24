@@ -31,7 +31,7 @@ func main() {
 
 	err := writePidFile(pidPtr)
 	if err != nil {
-		log.Error("Couldn't setup pid", err)
+		panic("Couldn't setup pid")
 	}
 
 	sge := newGridEngine()
