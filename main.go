@@ -28,8 +28,8 @@ func main() {
 		isTest = true
 	}
 
-	entropy := rand.NewSource(time.Now().UnixNano())
-	random := rand.New(entropy)
+	entropy = rand.NewSource(time.Now().UnixNano())
+	random = rand.New(entropy)
 
 	log.Debug("Generating with new seed: ", random.Int())
 
@@ -58,7 +58,9 @@ func main() {
 
 	http.Handle("/metrics", promhttp.Handler())
 
-	log.Fatal(http.ListenAndServe(":"+string(listenPort), nil))
+	portDirective := ":" + strconv.Itoa(listenPort)
+
+	log.Fatal(http.ListenAndServe(portDirective, nil))
 }
 
 func writePidFile(pidFile string) error {

@@ -230,7 +230,7 @@ func generatedQstatOputput() (string, error) {
 					XMLName: xml.Name{
 						Local: "Queue-List",
 					},
-					Name:          "testing.local",
+					Name:          "all.q@testing.local", //Always needs the @ symbol
 					SlotsTotal:    int32(random.Int()),
 					SlotsUsed:     int32(random.Int()),
 					SlotsReserved: int32(random.Int()),
@@ -260,6 +260,21 @@ func generatedQstatOputput() (string, error) {
 							Name:  "virtual_free",
 							Type:  "hl",
 							Value: fmt.Sprintf("%f", random.Float64()) + "G",
+						},
+						{
+							Name:  "mem_used",
+							Type:  "hl",
+							Value: fmt.Sprintf("%f", random.Float64()) + "G",
+						},
+						{
+							Name:  "mem_total",
+							Type:  "hl",
+							Value: fmt.Sprintf("%f", random.Float64()) + "G",
+						},
+						{
+							Name:  "cpu",
+							Type:  "hl",
+							Value: fmt.Sprintf("%f", random.Float64()),
 						},
 					},
 					JobList: []gogridengine.JobList{
