@@ -6,6 +6,21 @@
 
 This is a Prometheus exporter for the Sun Grid Engine meant to be run on your master nodes. It utilizes Qstat on the command line and uses the gogridengine library to serialize its XML output into native objects and then format for prometheus consumption.
 
+# Environment Variables
+`TEST`: `true` for test mode which will not attempt to reach out to the command line but will rather generate data. 
+`LISTEN_PORT` : Defines what port the application should listen on
+
+# Running
+There is one optional flag available to the binary, which is `-pidfile`. This should indicate where the pidfile for the application should be placed, and primarily services to facilitate service managers such as uptstart or systemd.
+
+## Default
+`./gridengine_prometheus`
+This will run the application on the default port (9081)
+
+`./gridengine_prometheus -pidfile /tmp/pid.pid`
+
+Will run the application on the default port and write it's PID into a file located at `/tmp/pid.pid`
+
 ## Opinions
 
 This exporter has various opinions about how data is reported, primarily based on the XML structures from Qstat:
