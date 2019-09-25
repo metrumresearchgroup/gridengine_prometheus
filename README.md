@@ -4,7 +4,7 @@
 
 # Prometheus Exporter for Sun Grid Engine
 
-This is a Prometheus exporter for the Sun Grid Engine meant to be run on your master nodes. It utilizes Qstat on the command line and uses the gogridengine library to serialize its XML output into native objects and then format for prometheus consumption.
+This is a Prometheus exporter for the Sun Grid Engine meant to be run on your master nodes. It utilizes Qstat on the command line and uses the gogridengine library to serialize its XML output into native objects and then format for prometheus consumption. As long as the path for the executing user contains qstat, everything should work as the command execution inherits everything from the user. 
 
 # Environment Variables
 `TEST`: `true` for test mode which will not attempt to reach out to the command line but will rather generate data. 
