@@ -1,17 +1,12 @@
 package main
 
 import (
-	"bytes"
-	"context"
 	"encoding/xml"
-	"fmt"
 	"github.com/metrumresearchgroup/gogridengine"
 	"github.com/prometheus/client_golang/prometheus"
 	log "github.com/sirupsen/logrus"
-	"os/exec"
 	"strconv"
 	"strings"
-	"time"
 )
 
 //GridEngine is the default struct we will use for collection
@@ -112,7 +107,7 @@ func (collector *GridEngine) Describe(ch chan<- *prometheus.Desc) {
 func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 
 	//How to get the XML String
-	x, err := getQstatOutput()
+	x, err := gogridengine.GetQstatOutput()
 	if err != nil {
 		log.Error("There was an error processing the XML output", err)
 		return
@@ -192,136 +187,6 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 		}
 	}
 
-}
-
-func getQstatOutput() (string, error) {
-	if !isTest {
-		return qStatFromExec()
-	}
-
-	//Fallthrough to generation by object randomly
-	return generatedQstatOputput()
-}
-
-func qStatFromExec() (string, error) {
-	ctx := context.Background()
-	ctx, cancel := context.WithTimeout(ctx, 3*time.Second)
-	//Cowardly cancel on any other exit mode
-	defer cancel()
-
-	command := exec.CommandContext(ctx, "qstat -F xml")
-	output := &bytes.Buffer{}
-	command.Stdout = output
-	err := command.Run()
-	if err != nil {
-		return "", err
-	}
-
-	return output.String(), nil
-}
-
-func generatedQstatOputput() (string, error) {
-
-	ji := gogridengine.JobInfo{
-		XMLName: xml.Name{
-			Local: "job_info",
-		},
-		QueueInfo: gogridengine.QueueInfo{
-			XMLName: xml.Name{
-				Local: "queue_info",
-			},
-			Queues: []gogridengine.QueueList{
-				{
-					XMLName: xml.Name{
-						Local: "Queue-List",
-					},
-					Name:          "all.q@testing.local", //Always needs the @ symbol
-					SlotsTotal:    int32(random.Int()),
-					SlotsUsed:     int32(random.Int()),
-					SlotsReserved: int32(random.Int()),
-					LoadAverage:   float64(random.Float64()),
-					Resources: gogridengine.ResourceList{
-						{
-							Name:  "load_average",
-							Type:  "hl",
-							Value: "1.04",
-						},
-						{
-							Name:  "num_proc",
-							Type:  "ag",
-							Value: "3",
-						},
-						{
-							Name:  "mem_free",
-							Type:  "af",
-							Value: "2.04G",
-						},
-						{
-							Name:  "swap_free",
-							Type:  "ae",
-							Value: "500M",
-						},
-						{
-							Name:  "virtual_free",
-							Type:  "ad",
-							Value: "4G",
-						},
-						{
-							Name:  "mem_used",
-							Type:  "ac",
-							Value: "3G",
-						},
-						{
-							Name:  "mem_total",
-							Type:  "ab",
-							Value: "6G",
-						},
-						{
-							Name:  "cpu",
-							Type:  "aa",
-							Value: fmt.Sprintf("%f", random.Float64()),
-						},
-					},
-					JobList: []gogridengine.JobList{
-						{
-							XMLName: xml.Name{
-								Local: "job_list",
-							},
-							State:       "running",
-							JBJobNumber: int64(random.Int()),
-							JATPriority: random.Float64(),
-							JobName:     "Job-" + strconv.Itoa(random.Int()),
-							JobOwner:    "Owner-" + strconv.Itoa(random.Int()),
-							Slots:       3,
-						},
-					},
-				},
-				{
-					XMLName: xml.Name{
-						Local: "Queue-List",
-					},
-					Name: "all.q@testing.second", //Always needs the @ symbol
-
-					Resources: gogridengine.ResourceList{},
-					JobList: []gogridengine.JobList{
-						{
-							XMLName: xml.Name{
-								Local: "job_list",
-							},
-							State:       "running",
-							JBJobNumber: 1,
-							JATPriority: 1,
-							JobName:     "Second-Host-Job",
-							JobOwner:    "Owner",
-							Slots:       14,
-						},
-					},
-				},
-			},
-		},
-	}
-
-	return ji.GetXML()
 }
 
 func isJobRunning(job gogridengine.JobList) int {

@@ -41,6 +41,7 @@ func TestWritePidFile(t *testing.T) {
 }
 
 func TestSetup(t *testing.T) {
+	os.Unsetenv("TEST")
 	setup()
 
 	if isTest {

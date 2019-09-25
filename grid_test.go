@@ -2,6 +2,7 @@ package main
 
 import (
 	"math/rand"
+	"os"
 	"reflect"
 	"testing"
 	"time"
@@ -87,7 +88,6 @@ func Test_newGridEngine(t *testing.T) {
 func TestGridEngine_Describe(t *testing.T) {
 	description := newGridEngine()
 	channel := make(chan *prometheus.Desc, 11)
-	isTest = true
 	type fields struct {
 		TotalSlots     *prometheus.Desc
 		UsedSlots      *prometheus.Desc
@@ -153,7 +153,7 @@ func TestGridEngine_Describe(t *testing.T) {
 func TestGridEngine_Collect(t *testing.T) {
 	description := newGridEngine()
 	channel := make(chan prometheus.Metric, 100)
-	isTest = true
+	os.Setenv("TEST", "true")
 
 	//Prep the entropy components
 	entropy = rand.NewSource(time.Now().UnixNano())
@@ -216,35 +216,6 @@ func TestGridEngine_Collect(t *testing.T) {
 				JobSlots:       tt.fields.JobSlots,
 			}
 			collector.Collect(tt.args.ch)
-		})
-	}
-}
-
-func Test_getQstatOutput(t *testing.T) {
-	//Force to run output and fail
-	isTest = false
-
-	tests := []struct {
-		name    string
-		want    string
-		wantErr bool
-	}{
-		{
-			name:    "failure operation",
-			want:    "",
-			wantErr: true,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := getQstatOutput()
-			if (err != nil) != tt.wantErr {
-				t.Errorf("getQstatOutput() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if got != tt.want {
-				t.Errorf("getQstatOutput() = %v, want %v", got, tt.want)
-			}
 		})
 	}
 }
