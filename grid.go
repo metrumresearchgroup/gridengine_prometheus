@@ -180,20 +180,11 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 			owner := j.JobOwner
 			number := strconv.FormatInt(j.JBJobNumber, 10)
 
-			ch <- prometheus.MustNewConstMetric(collector.JobState, prometheus.GaugeValue, float64(isJobRunning(j)), hostname, name, owner, number)
+			ch <- prometheus.MustNewConstMetric(collector.JobState, prometheus.GaugeValue, float64(gogridengine.IsJobRunning(j)), hostname, name, owner, number)
 			ch <- prometheus.MustNewConstMetric(collector.JobPriority, prometheus.GaugeValue, j.JATPriority, hostname, name, owner, number)
 			ch <- prometheus.MustNewConstMetric(collector.JobSlots, prometheus.GaugeValue, float64(j.Slots), hostname, name, owner, number)
 
 		}
 	}
 
-}
-
-func isJobRunning(job gogridengine.JobList) int {
-
-	if job.State == "running" {
-		return 1
-	}
-
-	return 0
 }
