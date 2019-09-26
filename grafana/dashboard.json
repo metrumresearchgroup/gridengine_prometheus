@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1569507558292,
+  "iteration": 1569507558297,
   "links": [],
   "panels": [
     {
@@ -62,6 +62,105 @@
         "w": 24,
         "x": 0,
         "y": 0
+      },
+      "id": 82,
+      "panels": [],
+      "title": "Load Metrics",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "description": "Current Unix Load on servers",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 80,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sge_load_average",
+          "legendFormat": "{{hostname}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Cluster Load Details",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 8
       },
       "id": 66,
       "panels": [],
@@ -79,7 +178,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 1
+        "y": 9
       },
       "id": 10,
       "legend": {
@@ -159,7 +258,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 9
+        "y": 17
       },
       "id": 52,
       "panels": [],
@@ -188,7 +287,7 @@
         "h": 5,
         "w": 6,
         "x": 0,
-        "y": 10
+        "y": 18
       },
       "id": 7,
       "interval": null,
@@ -275,7 +374,7 @@
         "h": 5,
         "w": 24,
         "x": 0,
-        "y": 15
+        "y": 23
       },
       "id": 8,
       "interval": null,
@@ -350,7 +449,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 20
+        "y": 28
       },
       "id": 38,
       "panels": [],
@@ -370,7 +469,7 @@
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 21
+        "y": 29
       },
       "id": 4,
       "legend": {
@@ -453,7 +552,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 29
+        "y": 37
       },
       "id": 24,
       "panels": [],
@@ -472,7 +571,7 @@
         "h": 9,
         "w": 6,
         "x": 0,
-        "y": 30
+        "y": 38
       },
       "id": 2,
       "legend": {
@@ -634,5 +733,5 @@
   "timezone": "",
   "title": "Sun Grid Engine",
   "uid": "EMc73BpZz",
-  "version": 3
+  "version": 4
 }
