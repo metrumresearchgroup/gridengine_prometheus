@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1569507558289,
+  "iteration": 1569507558292,
   "links": [],
   "panels": [
     {
@@ -561,7 +561,7 @@
       }
     }
   ],
-  "refresh": false,
+  "refresh": "30s",
   "schemaVersion": 19,
   "style": "dark",
   "tags": [],
@@ -634,5 +634,5 @@
   "timezone": "",
   "title": "Sun Grid Engine",
   "uid": "EMc73BpZz",
-  "version": 2
+  "version": 3
 }
