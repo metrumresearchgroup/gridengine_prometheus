@@ -835,7 +835,7 @@
             }
           ],
           "query": "label_values(free_memory_bytes,hostname)",
-          "refresh": 0,
+          "refresh": 1,
           "regex": "",
           "skipUrlSync": false,
           "sort": 1,
@@ -1029,7 +1029,7 @@
             }
           ],
           "query": "label_values(job_priority_value{hostname=~\"$hostname\"},owner)",
-          "refresh": 0,
+          "refresh": 1,
           "regex": "",
           "skipUrlSync": false,
           "sort": 0,
