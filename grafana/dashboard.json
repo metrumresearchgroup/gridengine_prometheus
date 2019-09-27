@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1569598041100,
+  "iteration": 1569598406624,
   "links": [],
   "panels": [
     {
@@ -77,7 +77,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "description": "Number of jobs that are either pending or in an error state. ",
+      "description": "Number of jobs that are either pending / unassigned state",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -140,7 +140,7 @@
       "thresholds": "",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Jobs Not Running",
+      "title": "Pending Jobs",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -796,7 +796,7 @@
     ]
   },
   "time": {
-    "from": "now-5m",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {
@@ -816,5 +816,5 @@
   "timezone": "",
   "title": "Sun Grid Engine",
   "uid": "EMc73BpZz",
-  "version": 7
+  "version": 8
 }
