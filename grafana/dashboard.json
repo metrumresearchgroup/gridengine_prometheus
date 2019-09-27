@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1569598406624,
+  "iteration": 1569598406627,
   "links": [],
   "panels": [
     {
@@ -278,7 +278,7 @@
         {
           "expr": "count(job_state_value == 0)",
           "instant": false,
-          "legendFormat": "Not Running",
+          "legendFormat": "Pending",
           "refId": "A"
         },
         {
@@ -816,5 +816,5 @@
   "timezone": "",
   "title": "Sun Grid Engine",
   "uid": "EMc73BpZz",
-  "version": 8
+  "version": 9
 }
