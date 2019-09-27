@@ -5,6 +5,7 @@ import (
 	"github.com/metrumresearchgroup/gogridengine"
 	"github.com/prometheus/client_golang/prometheus"
 	log "github.com/sirupsen/logrus"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -174,17 +175,29 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 
 		ch <- prometheus.MustNewConstMetric(collector.CPUUtilization, prometheus.GaugeValue, CPUUtilization, hostname)
 
-		//Iterate over Jobs
+		//Iterate over Running Jobs
 		for _, j := range ql.JobList {
-			name := j.JobName
-			owner := j.JobOwner
-			number := strconv.FormatInt(j.JBJobNumber, 10)
-
-			ch <- prometheus.MustNewConstMetric(collector.JobState, prometheus.GaugeValue, float64(gogridengine.IsJobRunning(j)), hostname, name, owner, number)
-			ch <- prometheus.MustNewConstMetric(collector.JobPriority, prometheus.GaugeValue, j.JATPriority, hostname, name, owner, number)
-			ch <- prometheus.MustNewConstMetric(collector.JobSlots, prometheus.GaugeValue, float64(j.Slots), hostname, name, owner, number)
-
+			processJob(j, ch, collector, hostname)
 		}
 	}
 
+	for _, j := range ji.PendingJobs.JobList {
+		//Process the hostname as the master
+		hostname, err := os.Hostname()
+		if err != nil {
+			hostname = "localhost"
+		}
+		processJob(j, ch, collector, hostname)
+	}
+
+}
+
+func processJob(j gogridengine.JobList, ch chan<- prometheus.Metric, collector *GridEngine, hostname string) {
+	name := j.JobName
+	owner := j.JobOwner
+	number := strconv.FormatInt(j.JBJobNumber, 10)
+
+	ch <- prometheus.MustNewConstMetric(collector.JobState, prometheus.GaugeValue, float64(gogridengine.IsJobRunning(j)), hostname, name, owner, number)
+	ch <- prometheus.MustNewConstMetric(collector.JobPriority, prometheus.GaugeValue, j.JATPriority, hostname, name, owner, number)
+	ch <- prometheus.MustNewConstMetric(collector.JobSlots, prometheus.GaugeValue, float64(j.Slots), hostname, name, owner, number)
 }
