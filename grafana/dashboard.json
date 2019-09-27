@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1569598406627,
+  "iteration": 1569599551681,
   "links": [],
   "panels": [
     {
@@ -262,7 +262,7 @@
       },
       "lines": true,
       "linewidth": 1,
-      "nullPointMode": "null",
+      "nullPointMode": "null as zero",
       "options": {
         "dataLinks": []
       },
@@ -796,7 +796,7 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
@@ -816,5 +816,5 @@
   "timezone": "",
   "title": "Sun Grid Engine",
   "uid": "EMc73BpZz",
-  "version": 9
+  "version": 10
 }
