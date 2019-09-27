@@ -52,7 +52,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1569595999363,
+  "iteration": 1569598041100,
   "links": [],
   "panels": [
     {
@@ -133,6 +133,7 @@
       "targets": [
         {
           "expr": "count(job_state_value == 0)",
+          "instant": true,
           "refId": "A"
         }
       ],
@@ -216,6 +217,7 @@
       "targets": [
         {
           "expr": "count(job_state_value == 1)",
+          "instant": true,
           "refId": "A"
         }
       ],
@@ -235,12 +237,105 @@
       "valueName": "current"
     },
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "description": "Summarizes Running vs Non Running over time. Since there is no concept of \"complete\" for Qstat, a descending trend in \"Not Running\" jobs indicates some completion of work",
+      "fill": 1,
+      "fillGradient": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 106,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 1,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "count(job_state_value == 0)",
+          "instant": false,
+          "legendFormat": "Not Running",
+          "refId": "A"
+        },
+        {
+          "expr": "count(job_state_value == 1)",
+          "instant": false,
+          "legendFormat": "Running",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Job Summary",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 9
+        "y": 18
       },
       "id": 82,
       "panels": [],
@@ -259,7 +354,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 10
+        "y": 19
       },
       "id": 80,
       "legend": {
@@ -339,7 +434,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 17
+        "y": 26
       },
       "id": 38,
       "panels": [],
@@ -359,7 +454,7 @@
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 18
+        "y": 27
       },
       "id": 4,
       "legend": {
@@ -442,7 +537,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 26
+        "y": 35
       },
       "id": 24,
       "panels": [],
@@ -461,7 +556,7 @@
         "h": 9,
         "w": 6,
         "x": 0,
-        "y": 27
+        "y": 36
       },
       "id": 2,
       "legend": {
@@ -555,7 +650,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 36
+        "y": 45
       },
       "id": 66,
       "panels": [],
@@ -573,7 +668,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 37
+        "y": 46
       },
       "id": 10,
       "legend": {
@@ -721,5 +816,5 @@
   "timezone": "",
   "title": "Sun Grid Engine",
   "uid": "EMc73BpZz",
-  "version": 3
+  "version": 7
 }
