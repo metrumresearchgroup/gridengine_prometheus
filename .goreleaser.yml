@@ -1,22 +1,74 @@
-# This is an example goreleaser.yaml file with some sane defaults.
-# Make sure to check the documentation at http://goreleaser.com
-builds:
-- env:
-  - CGO_ENABLED=0
-archives:
-- replacements:
-    darwin: Darwin
-    linux: Linux
-    windows: Windows
-    386: i386
-    amd64: x86_64
-checksum:
-  name_template: 'checksums.txt'
-snapshot:
-  name_template: "{{ .Tag }}-next"
-changelog:
-  sort: asc
-  filters:
-    exclude:
-    - '^docs:'
-    - '^test:'
+# .goreleaser.yml
+nfpms:
+  # note that this is an array of nfpm configs
+  -
+    # ID of the nfpm config, must be unique.
+    # Defaults to "default".
+    id: gridengine_prometheus
+    # You can change the name of the package.
+    # Default: `{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}`
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+    # Replacements for GOOS and GOARCH in the package name.
+    # Keys should be valid GOOSs or GOARCHs.
+    # Values are the respective replacements.
+    # Default is empty.
+    replacements:
+      amd64: 64-bit
+      386: 32-bit
+      darwin: macOS
+
+    # Your app's vendor.
+    # Default is empty.
+    vendor: Metrum Research Group
+    # Your app's homepage.
+    # Default is empty.
+    homepage: https://metrumrg.com/
+
+    # Your app's maintainer (probably you).
+    # Default is empty.
+    maintainer: Darrell Breeden <darrellb@metrumrg.com>
+
+    # Your app's description.
+    # Default is empty.
+    description: Prometheus Exporter for the Sun Grid Engine
+
+    # Your app's license.
+    # Default is empty.
+    license: MIT
+
+    # Formats to be generated.
+    formats:
+      - deb
+      - rpm
+
+    # Packages your package depends on.
+    dependencies:
+      - systemd
+      - bash
+
+    # Packages your package recommends installing.
+    # For RPM packages rpmbuild >= 4.13 is required
+    recommends:
+      - git
+
+    # Override default /usr/local/bin destination for binaries
+    bindir: /usr/local/bin
+
+    # Empty folders that should be created and managed by the packager
+    # implementation.
+    # Default is empty.
+    empty_folders:
+    - /var/log/gridengine_prometheus
+
+    # Files or directories to add to your package (beyond the binary).
+    # Keys are source paths/globs to get the files from.
+    # Values are the destination locations of the files in the package.
+    files:
+      "scripts/gridengine_prometheus.service": "/etc/systemd/system/gridengine_prometheus.service"
+
+    # Scripts to execute during the installation of the package.
+    # Keys are the possible targets during the installation process
+    # Values are the paths to the scripts which will be executed
+    scripts:
+      postinstall: "scripts/postinstall.sh"
