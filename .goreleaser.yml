@@ -66,6 +66,7 @@ nfpms:
     # Values are the destination locations of the files in the package.
     files:
       "scripts/gridengine_prometheus.service": "/etc/systemd/system/gridengine_prometheus.service"
+      "scripts/environment.file": "/etc/default/gridengine"
 
     # Scripts to execute during the installation of the package.
     # Keys are the possible targets during the installation process

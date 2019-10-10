@@ -2,12 +2,13 @@ package main
 
 import (
 	"encoding/xml"
-	"github.com/metrumresearchgroup/gogridengine"
-	"github.com/prometheus/client_golang/prometheus"
-	log "github.com/sirupsen/logrus"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/metrumresearchgroup/gogridengine"
+	"github.com/prometheus/client_golang/prometheus"
+	log "github.com/sirupsen/logrus"
 )
 
 //GridEngine is the default struct we will use for collection
