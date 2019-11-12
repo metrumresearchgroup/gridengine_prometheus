@@ -111,7 +111,7 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 	//How to get the XML String
 	x, err := gogridengine.GetQstatOutput()
 	if err != nil {
-		log.Error("There was an error processing the XML output", err)
+		log.WithError(err).Error("There was an error processing the XML output")
 		return
 	}
 
@@ -120,7 +120,7 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 	err = xml.Unmarshal([]byte(x), &ji)
 
 	if err != nil {
-		log.Error("Unable to marshal the XML cleanly into an object", err)
+		log.WithError(err).Error("Unable to marshal the XML cleanly into an object")
 		return
 	}
 
@@ -137,7 +137,7 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 		FreeMemory, err := ql.Resources.FreeMemory()
 
 		if err != nil {
-			log.Error("There was an error extracting Free Memory from the resource list", err)
+			log.WithError(err).Error("There was an error extracting Free Memory from the resource list")
 			FreeMemory = gogridengine.StorageValue{
 				Bytes: 0,
 			}
@@ -148,7 +148,7 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 		UsedMemory, err := ql.Resources.MemoryUsed()
 
 		if err != nil {
-			log.Error("There was an error extracting Used Memory from the resource list", err)
+			log.WithError(err).Error("There was an error extracting Used Memory from the resource list")
 			UsedMemory = gogridengine.StorageValue{
 				Bytes: 0,
 			}
@@ -159,7 +159,7 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 		TotalMemory, err := ql.Resources.TotalMemory()
 
 		if err != nil {
-			log.Error("There was an error extracting Total Memory from the resource list", err)
+			log.WithError(err).Error("There was an error extracting Total Memory from the resource list")
 			TotalMemory = gogridengine.StorageValue{
 				Bytes: 0,
 			}
@@ -170,7 +170,7 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 		CPUUtilization, err := ql.Resources.CPU()
 
 		if err != nil {
-			log.Error("There was an error extracting CPU Utilization from the resource list", err)
+			log.WithError(err).Error("There was an error extracting CPU Utilization from the resource list")
 			CPUUtilization = 0
 		}
 
