@@ -65,7 +65,7 @@ func writePidFile(pidFile *string) error {
 
 func setup() {
 	//Enable test mode for random data generation
-	if os.Getenv("TEST") == "true" {
+	if os.Getenv("GOGRIDENGINE_TEST") == "true" {
 		isTest = true
 	}
 

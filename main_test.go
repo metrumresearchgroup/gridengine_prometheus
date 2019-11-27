@@ -41,7 +41,7 @@ func TestWritePidFile(t *testing.T) {
 }
 
 func TestSetup(t *testing.T) {
-	os.Unsetenv("TEST")
+	os.Unsetenv("GOGRIDENGINE_TEST")
 	setup()
 
 	if isTest {
@@ -51,7 +51,7 @@ func TestSetup(t *testing.T) {
 	random.Int()
 	random.Float64()
 
-	os.Setenv("TEST", "true")
+	os.Setenv("GOGRIDENGINE_TEST", "true")
 
 	setup()
 
