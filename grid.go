@@ -4,7 +4,6 @@ import (
 	"encoding/xml"
 	"os"
 	"strconv"
-	"strings"
 
 	"github.com/metrumresearchgroup/gogridengine"
 	"github.com/prometheus/client_golang/prometheus"
@@ -127,7 +126,7 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 	//Now to begin iterating over the QueueList components
 	for _, ql := range ji.QueueInfo.Queues {
 		//Assumes all.q@ip-172-16-2-102.us-west-2.compute.internal structure
-		hostname := strings.Split(ql.Name, "@")[1]
+		hostname := ql.Name
 
 		ch <- prometheus.MustNewConstMetric(collector.UsedSlots, prometheus.GaugeValue, float64(ql.SlotsUsed), hostname)
 		ch <- prometheus.MustNewConstMetric(collector.ReservedSlots, prometheus.GaugeValue, float64(ql.SlotsReserved), hostname)
