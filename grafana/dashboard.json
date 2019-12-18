@@ -586,19 +586,19 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "free_memory_bytes{hostname=~\"$hostname\"} / (1000 * 1000 * 1000)",
+          "expr": "free_memory_bytes{hostname=~\"$hostname\"}",
           "instant": false,
           "legendFormat": "Free Memory",
           "refId": "A"
         },
         {
-          "expr": "sge_total_memory_bytes{hostname=~\"$hostname\"} / (1000 * 1000 * 1000)",
+          "expr": "sge_total_memory_bytes{hostname=~\"$hostname\"}",
           "instant": false,
           "legendFormat": "Total Memory",
           "refId": "B"
         },
         {
-          "expr": "sge_used_memory_bytes{hostname=~\"$hostname\"} / (1000 * 1000 * 1000)",
+          "expr": "sge_used_memory_bytes{hostname=~\"$hostname\"}",
           "legendFormat": "Used Memory",
           "refId": "D"
         }
@@ -623,7 +623,7 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "bytes",
           "label": null,
           "logBase": 1,
           "max": null,
