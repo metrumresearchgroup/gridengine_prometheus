@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/metrumresearchgroup/gogridengine"
 	"github.com/prometheus/client_golang/prometheus"
@@ -32,57 +33,57 @@ func newGridEngine() *GridEngine {
 		TotalSlots: prometheus.NewDesc(
 			"total_slots_count",
 			"Total Number of slots available to the host",
-			[]string{"hostname"},
+			[]string{"hostname", "queue"},
 			nil),
 		UsedSlots: prometheus.NewDesc(
 			"used_slots_count",
 			"Number of used slots on host",
-			[]string{"hostname"},
+			[]string{"hostname", "queue"},
 			nil),
 		ReservedSlots: prometheus.NewDesc(
 			"reserved_slots_count",
 			"Number of reserved slots on host",
-			[]string{"hostname"},
+			[]string{"hostname", "queue"},
 			nil),
 		LoadAverage: prometheus.NewDesc(
 			"sge_load_average",
 			"Load average of this specific SGE host",
-			[]string{"hostname"},
+			[]string{"hostname", "queue"},
 			nil),
 		FreeMemory: prometheus.NewDesc(
 			"free_memory_bytes",
 			"Number of bytes in free memory",
-			[]string{"hostname"},
+			[]string{"hostname", "queue"},
 			nil),
 		UsedMemory: prometheus.NewDesc(
 			"sge_used_memory_bytes",
 			"Number of bytes in used memory",
-			[]string{"hostname"},
+			[]string{"hostname", "queue"},
 			nil),
 		TotalMemory: prometheus.NewDesc(
 			"sge_total_memory_bytes",
 			"Number of bytes in total memory",
-			[]string{"hostname"},
+			[]string{"hostname", "queue"},
 			nil),
 		CPUUtilization: prometheus.NewDesc(
 			"sge_cpu_utilization_percent",
 			"Decimal representing total CPU utilization on host",
-			[]string{"hostname"},
+			[]string{"hostname", "queue"},
 			nil),
 		JobState: prometheus.NewDesc(
 			"job_state_value",
 			"Indicates whether job is running (1) or not (0)",
-			[]string{"hostname", "name", "owner", "job_number", "task_id"},
+			[]string{"hostname", "queue", "name", "owner", "job_number", "task_id"},
 			nil),
 		JobPriority: prometheus.NewDesc(
 			"job_priority_value",
 			"Qstat priority for given job",
-			[]string{"hostname", "name", "owner", "job_number", "task_id"},
+			[]string{"hostname", "queue", "name", "owner", "job_number", "task_id"},
 			nil),
 		JobSlots: prometheus.NewDesc(
 			"job_slots_count",
 			"Number of slots on the selected job",
-			[]string{"hostname", "name", "owner", "job_number", "task_id"},
+			[]string{"hostname", "queue", "name", "owner", "job_number", "task_id"},
 			nil),
 	}
 }
@@ -126,12 +127,14 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 	//Now to begin iterating over the QueueList components
 	for _, ql := range ji.QueueInfo.Queues {
 		//Assumes all.q@ip-172-16-2-102.us-west-2.compute.internal structure
-		hostname := ql.Name
+		pieces := strings.Split(ql.Name, "@")
+		queue := pieces[0]
+		hostname := pieces[1]
 
-		ch <- prometheus.MustNewConstMetric(collector.UsedSlots, prometheus.GaugeValue, float64(ql.SlotsUsed), hostname)
-		ch <- prometheus.MustNewConstMetric(collector.ReservedSlots, prometheus.GaugeValue, float64(ql.SlotsReserved), hostname)
-		ch <- prometheus.MustNewConstMetric(collector.TotalSlots, prometheus.GaugeValue, float64(ql.SlotsTotal), hostname)
-		ch <- prometheus.MustNewConstMetric(collector.LoadAverage, prometheus.GaugeValue, ql.LoadAverage, hostname)
+		ch <- prometheus.MustNewConstMetric(collector.UsedSlots, prometheus.GaugeValue, float64(ql.SlotsUsed), hostname, queue)
+		ch <- prometheus.MustNewConstMetric(collector.ReservedSlots, prometheus.GaugeValue, float64(ql.SlotsReserved), hostname, queue)
+		ch <- prometheus.MustNewConstMetric(collector.TotalSlots, prometheus.GaugeValue, float64(ql.SlotsTotal), hostname, queue)
+		ch <- prometheus.MustNewConstMetric(collector.LoadAverage, prometheus.GaugeValue, ql.LoadAverage, hostname, queue)
 
 		FreeMemory, err := ql.Resources.FreeMemory()
 
@@ -142,7 +145,7 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 			}
 		}
 
-		ch <- prometheus.MustNewConstMetric(collector.FreeMemory, prometheus.GaugeValue, float64(FreeMemory.Bytes), hostname)
+		ch <- prometheus.MustNewConstMetric(collector.FreeMemory, prometheus.GaugeValue, float64(FreeMemory.Bytes), hostname, queue)
 
 		UsedMemory, err := ql.Resources.MemoryUsed()
 
@@ -153,7 +156,7 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 			}
 		}
 
-		ch <- prometheus.MustNewConstMetric(collector.UsedMemory, prometheus.GaugeValue, float64(UsedMemory.Bytes), hostname)
+		ch <- prometheus.MustNewConstMetric(collector.UsedMemory, prometheus.GaugeValue, float64(UsedMemory.Bytes), hostname, queue)
 
 		TotalMemory, err := ql.Resources.TotalMemory()
 
@@ -164,7 +167,7 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 			}
 		}
 
-		ch <- prometheus.MustNewConstMetric(collector.TotalMemory, prometheus.GaugeValue, float64(TotalMemory.Bytes), hostname)
+		ch <- prometheus.MustNewConstMetric(collector.TotalMemory, prometheus.GaugeValue, float64(TotalMemory.Bytes), hostname, queue)
 
 		CPUUtilization, err := ql.Resources.CPU()
 
@@ -173,11 +176,11 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 			CPUUtilization = 0
 		}
 
-		ch <- prometheus.MustNewConstMetric(collector.CPUUtilization, prometheus.GaugeValue, CPUUtilization, hostname)
+		ch <- prometheus.MustNewConstMetric(collector.CPUUtilization, prometheus.GaugeValue, CPUUtilization, hostname, queue)
 
 		//Iterate over Running Jobs
 		for _, j := range ql.JobList {
-			processJob(j, ch, collector, hostname)
+			processJob(j, ch, collector, hostname, queue)
 		}
 	}
 
@@ -187,18 +190,18 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 		if err != nil {
 			hostname = "localhost"
 		}
-		processJob(j, ch, collector, hostname)
+		processJob(j, ch, collector, hostname, "pending")
 	}
 
 }
 
-func processJob(j gogridengine.Job, ch chan<- prometheus.Metric, collector *GridEngine, hostname string) {
+func processJob(j gogridengine.Job, ch chan<- prometheus.Metric, collector *GridEngine, hostname string, queue string) {
 	name := j.JobName
 	owner := j.JobOwner
 	number := strconv.FormatInt(j.JBJobNumber, 10)
 	taskID := strconv.Itoa(int(j.Tasks.TaskID))
 
-	ch <- prometheus.MustNewConstMetric(collector.JobState, prometheus.GaugeValue, float64(gogridengine.IsJobRunning(j)), hostname, name, owner, number, taskID)
-	ch <- prometheus.MustNewConstMetric(collector.JobPriority, prometheus.GaugeValue, j.JATPriority, hostname, name, owner, number, taskID)
-	ch <- prometheus.MustNewConstMetric(collector.JobSlots, prometheus.GaugeValue, float64(j.Slots), hostname, name, owner, number, taskID)
+	ch <- prometheus.MustNewConstMetric(collector.JobState, prometheus.GaugeValue, float64(gogridengine.IsJobRunning(j)), hostname, queue, name, owner, number, taskID)
+	ch <- prometheus.MustNewConstMetric(collector.JobPriority, prometheus.GaugeValue, j.JATPriority, hostname, queue, name, owner, number, taskID)
+	ch <- prometheus.MustNewConstMetric(collector.JobSlots, prometheus.GaugeValue, float64(j.Slots), hostname, queue, name, owner, number, taskID)
 }
