@@ -39,6 +39,8 @@ github.com/metrumresearchgroup/gogridengine v0.0.0-20191217191617-1f16f6db7a8b h
 github.com/metrumresearchgroup/gogridengine v0.0.0-20191217191617-1f16f6db7a8b/go.mod h1:opfxgPaKkfTsV5EbwTkH3oUMAyJE7VL1twLdhEPXorg=
 github.com/metrumresearchgroup/gogridengine v0.0.0-20191218182527-bc69784db233 h1:hASCLt663JyOQVaBjFAJpq0UrKB8P01doVXVccfZba8=
 github.com/metrumresearchgroup/gogridengine v0.0.0-20191218182527-bc69784db233/go.mod h1:opfxgPaKkfTsV5EbwTkH3oUMAyJE7VL1twLdhEPXorg=
+github.com/metrumresearchgroup/gogridengine v0.0.0-20191225174611-35c8b62cd3fe h1:Gl5qwfu5Q0ZSaLN5Z0EEIXVhVDzH0M+QudJhabyfJQ0=
+github.com/metrumresearchgroup/gogridengine v0.0.0-20191225174611-35c8b62cd3fe/go.mod h1:opfxgPaKkfTsV5EbwTkH3oUMAyJE7VL1twLdhEPXorg=
 github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421/go.mod h1:6dJC0mAP4ikYIbvyc7fijjWJddQyLn8Ig3JB5CqoB9Q=
 github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd/go.mod h1:6dJC0mAP4ikYIbvyc7fijjWJddQyLn8Ig3JB5CqoB9Q=
 github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742/go.mod h1:bx2lNnkwVCuqBIxFjflWJWanXIb3RllmbCylyMrvgv0=
