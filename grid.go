@@ -4,7 +4,6 @@ import (
 	"encoding/xml"
 	"os"
 	"strconv"
-	"strings"
 
 	"github.com/metrumresearchgroup/gogridengine"
 	"github.com/prometheus/client_golang/prometheus"
@@ -73,17 +72,17 @@ func newGridEngine() *GridEngine {
 		JobState: prometheus.NewDesc(
 			"job_state_value",
 			"Indicates whether job is running (1) or not (0)",
-			[]string{"hostname", "name", "owner", "job_number"},
+			[]string{"hostname", "name", "owner", "job_number", "task_id"},
 			nil),
 		JobPriority: prometheus.NewDesc(
 			"job_priority_value",
 			"Qstat priority for given job",
-			[]string{"hostname", "name", "owner", "job_number"},
+			[]string{"hostname", "name", "owner", "job_number", "task_id"},
 			nil),
 		JobSlots: prometheus.NewDesc(
 			"job_slots_count",
 			"Number of slots on the selected job",
-			[]string{"hostname", "name", "owner", "job_number"},
+			[]string{"hostname", "name", "owner", "job_number", "task_id"},
 			nil),
 	}
 }
@@ -109,7 +108,7 @@ func (collector *GridEngine) Describe(ch chan<- *prometheus.Desc) {
 func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 
 	//How to get the XML String
-	x, err := gogridengine.GetQstatOutput()
+	x, err := gogridengine.GetQstatOutput(make(map[string]string))
 	if err != nil {
 		log.WithError(err).Error("There was an error processing the XML output")
 		return
@@ -127,7 +126,7 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 	//Now to begin iterating over the QueueList components
 	for _, ql := range ji.QueueInfo.Queues {
 		//Assumes all.q@ip-172-16-2-102.us-west-2.compute.internal structure
-		hostname := strings.Split(ql.Name, "@")[1]
+		hostname := ql.Name
 
 		ch <- prometheus.MustNewConstMetric(collector.UsedSlots, prometheus.GaugeValue, float64(ql.SlotsUsed), hostname)
 		ch <- prometheus.MustNewConstMetric(collector.ReservedSlots, prometheus.GaugeValue, float64(ql.SlotsReserved), hostname)
@@ -193,12 +192,13 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 
 }
 
-func processJob(j gogridengine.JobList, ch chan<- prometheus.Metric, collector *GridEngine, hostname string) {
+func processJob(j gogridengine.Job, ch chan<- prometheus.Metric, collector *GridEngine, hostname string) {
 	name := j.JobName
 	owner := j.JobOwner
 	number := strconv.FormatInt(j.JBJobNumber, 10)
+	taskID := strconv.Itoa(int(j.Tasks.TaskID))
 
-	ch <- prometheus.MustNewConstMetric(collector.JobState, prometheus.GaugeValue, float64(gogridengine.IsJobRunning(j)), hostname, name, owner, number)
-	ch <- prometheus.MustNewConstMetric(collector.JobPriority, prometheus.GaugeValue, j.JATPriority, hostname, name, owner, number)
-	ch <- prometheus.MustNewConstMetric(collector.JobSlots, prometheus.GaugeValue, float64(j.Slots), hostname, name, owner, number)
+	ch <- prometheus.MustNewConstMetric(collector.JobState, prometheus.GaugeValue, float64(gogridengine.IsJobRunning(j)), hostname, name, owner, number, taskID)
+	ch <- prometheus.MustNewConstMetric(collector.JobPriority, prometheus.GaugeValue, j.JATPriority, hostname, name, owner, number, taskID)
+	ch <- prometheus.MustNewConstMetric(collector.JobSlots, prometheus.GaugeValue, float64(j.Slots), hostname, name, owner, number, taskID)
 }

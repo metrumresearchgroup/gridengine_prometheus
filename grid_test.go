@@ -61,17 +61,17 @@ func Test_newGridEngine(t *testing.T) {
 				JobState: prometheus.NewDesc(
 					"job_state_value",
 					"Indicates whether job is running (1) or not (0)",
-					[]string{"hostname", "name", "owner", "job_number"},
+					[]string{"hostname", "name", "owner", "job_number", "task_id"},
 					nil),
 				JobPriority: prometheus.NewDesc(
 					"job_priority_value",
 					"Qstat priority for given job",
-					[]string{"hostname", "name", "owner", "job_number"},
+					[]string{"hostname", "name", "owner", "job_number", "task_id"},
 					nil),
 				JobSlots: prometheus.NewDesc(
 					"job_slots_count",
 					"Number of slots on the selected job",
-					[]string{"hostname", "name", "owner", "job_number"},
+					[]string{"hostname", "name", "owner", "job_number", "task_id"},
 					nil),
 			},
 		},
