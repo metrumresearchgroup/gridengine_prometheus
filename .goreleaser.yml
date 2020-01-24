@@ -4,7 +4,7 @@ nfpms:
   -
     # ID of the nfpm config, must be unique.
     # Defaults to "default".
-    id: gridengine_prometheus
+    id: gridengine_prometheus.sh
     # You can change the name of the package.
     # Default: `{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}`
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
@@ -44,7 +44,6 @@ nfpms:
 
     # Packages your package depends on.
     dependencies:
-      - systemd
       - bash
 
     # Packages your package recommends installing.
@@ -60,13 +59,16 @@ nfpms:
     # Default is empty.
     empty_folders:
     - /var/log/gridengine_prometheus
+    - /etc/gridengine_prometheus
 
     # Files or directories to add to your package (beyond the binary).
     # Keys are source paths/globs to get the files from.
     # Values are the destination locations of the files in the package.
     files:
       "scripts/gridengine_prometheus.service": "/etc/systemd/system/gridengine_prometheus.service"
+      "scripts/gridengine_prometheus.sh" : "/etc/init.d/gridengine_prometheus"
       "scripts/environment.file": "/etc/default/gridengine_prometheus"
+
 
     # Scripts to execute during the installation of the package.
     # Keys are the possible targets during the installation process
