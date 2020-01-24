@@ -22,8 +22,9 @@
 PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin:/opt/sge/bin/lx-amd64
 DESC="Sun Grid Engine exporter for Prometheus"
 NAME=gridengine_prometheus
+CONFIG=/etc/gridengine_prometheus/config.yaml
 DAEMON=/usr/local/bin/$NAME
-DAEMON_ARGS=""
+DAEMON_ARGS="--config ${CONFIG}"
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 

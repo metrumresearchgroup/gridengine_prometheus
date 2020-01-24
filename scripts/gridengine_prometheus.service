@@ -5,7 +5,7 @@ Description=gridengine_prometheus
 Type=simple
 Restart=always
 RestartSec=5s
-ExecStart=/usr/local/bin/gridengine_prometheus
+ExecStart=/usr/local/bin/gridengine_prometheus --config /etc/gridengine_prometheus/config.yaml
 
 [Install]
 WantedBy=multi-user.target
