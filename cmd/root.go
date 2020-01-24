@@ -38,7 +38,15 @@ func Start( cmd *cobra.Command, args []string){
 	random = rand.New(entropy)
 
 	if viper.GetBool("test") {
+		//set the underlying gogridengine variable
 		os.Setenv("GOGRIDENGINE_TEST","true")
+	}
+
+	if len(viper.GetString("config")) > 0 {
+		err := readProvidedConfig(viper.GetString("config"))
+		if err != nil {
+			log.Fatalf("Attempting to open config file %s failed with error $s", viper.GetString("config"),err)
+		}
 	}
 
 
@@ -53,6 +61,8 @@ func Start( cmd *cobra.Command, args []string){
 	prometheus.MustRegister(sge)
 
 	http.Handle("/metrics", promhttp.Handler())
+
+	log.Infof("Getting ready to start exporter on port %d", viper.GetInt("port"))
 
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d",viper.GetInt("port")), nil))
 }
@@ -94,4 +104,18 @@ func writePidFile(pidFile string) error {
 	// If we get here, then the pidfile didn't exist,
 	// or the pid in it doesn't belong to the user running this app.
 	return ioutil.WriteFile(location, []byte(fmt.Sprintf("%d", os.Getpid())), 0664)
+}
+
+//TODO Test
+func readProvidedConfig(path string) error {
+	viper.SetConfigType("yaml")
+
+	//Read file to get reader
+	file, err := os.Open(viper.GetString("config"))
+
+	if err != nil {
+		return err
+	}
+
+	return viper.ReadConfig(file)
 }

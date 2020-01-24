@@ -32,5 +32,4 @@
 # End of https://www.gitignore.io/api/go,visualstudiocode
 
 dist
-gridengine_prometheus
 .idea
