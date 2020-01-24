@@ -4,7 +4,7 @@ nfpms:
   -
     # ID of the nfpm config, must be unique.
     # Defaults to "default".
-    id: gridengine_prometheus.sh
+    id: gridengine_prometheus
     # You can change the name of the package.
     # Default: `{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}`
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
@@ -52,7 +52,7 @@ nfpms:
       - git
 
     # Override default /usr/local/bin destination for binaries
-    bindir: /usr/local/bin
+    bindir: /usr/local/gridengine_prometheus
 
     # Empty folders that should be created and managed by the packager
     # implementation.
@@ -67,7 +67,7 @@ nfpms:
     files:
       "scripts/gridengine_prometheus.service": "/etc/systemd/system/gridengine_prometheus.service"
       "scripts/gridengine_prometheus.sh" : "/etc/init.d/gridengine_prometheus"
-      "scripts/environment.file": "/etc/default/gridengine_prometheus"
+      "scripts/gridengine_prometheus.yaml" : "/etc/gridengine_prometheus/config.yaml"
 
 
     # Scripts to execute during the installation of the package.

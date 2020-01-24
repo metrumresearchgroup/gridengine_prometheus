@@ -5,7 +5,6 @@ Description=gridengine_prometheus
 Type=simple
 Restart=always
 RestartSec=5s
-EnvironmentFile=/etc/default/gridengine_prometheus
 ExecStart=/usr/local/bin/gridengine_prometheus
 
 [Install]
