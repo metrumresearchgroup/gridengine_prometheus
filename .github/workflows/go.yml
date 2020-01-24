@@ -13,7 +13,7 @@ jobs:
         go-version: 1.12
       id: go
 
-    - name: Check out code into the Go module directory
+    - name: Check out code into the Go module cmd
       uses: actions/checkout@v1
 
     - name: Get dependencies

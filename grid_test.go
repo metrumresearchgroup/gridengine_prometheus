@@ -1,4 +1,4 @@
-package main
+package gridengine_prometheus
 
 import (
 	"math/rand"
@@ -9,6 +9,9 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus"
 )
+
+var entropy rand.Source
+var random *rand.Rand
 
 func Test_newGridEngine(t *testing.T) {
 	tests := []struct {
@@ -78,7 +81,7 @@ func Test_newGridEngine(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := newGridEngine(); !reflect.DeepEqual(got, tt.want) {
+			if got := NewGridEngine(); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("newGridEngine() = %v, want %v", got, tt.want)
 			}
 		})
@@ -86,7 +89,7 @@ func Test_newGridEngine(t *testing.T) {
 }
 
 func TestGridEngine_Describe(t *testing.T) {
-	description := newGridEngine()
+	description := NewGridEngine()
 	channel := make(chan *prometheus.Desc, 11)
 	type fields struct {
 		TotalSlots     *prometheus.Desc
@@ -151,7 +154,7 @@ func TestGridEngine_Describe(t *testing.T) {
 }
 
 func TestGridEngine_Collect(t *testing.T) {
-	description := newGridEngine()
+	description := NewGridEngine()
 	channel := make(chan prometheus.Metric, 100)
 	os.Setenv("GOGRIDENGINE_TEST", "true")
 	os.Setenv("GOGRIDENGINE_TEST_SOURCE", "https://gist.githubusercontent.com/shairozan/03f6f6123b11483bb17fd2c6ee95c338/raw/d65e6d603e7563b7307f9b045171ea7693c95f40/small_sge.xml")
