@@ -22,7 +22,7 @@
 PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin:/opt/sge/bin/lx-amd64
 DESC="Sun Grid Engine exporter for Prometheus"
 NAME=gridengine_prometheus
-CONFIG=/etc/gridengine_prometheus/config.yaml
+CONFIG=/etc/${NAME}/config.yaml
 DAEMON=/usr/local/bin/$NAME
 DAEMON_ARGS="--config ${CONFIG}"
 PIDFILE=/var/run/$NAME.pid
@@ -140,8 +140,8 @@ case "$1" in
     esac
     ;;
   status)
-     status_of_proc "$DAEMON" "$NAME" && exit 0 || exit $?
-     ;;
+   status_of_proc "$DAEMON" "$NAME" && exit 0 || exit $?
+   ;;
   *)
     echo "Usage: $SCRIPTNAME {start|stop|status|restart}" >&2
     exit 3

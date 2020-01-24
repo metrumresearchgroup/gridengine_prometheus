@@ -52,7 +52,7 @@ func Start( cmd *cobra.Command, args []string){
 	if len(viper.GetString("config")) > 0 {
 		err := readProvidedConfig(viper.GetString("config"))
 		if err != nil {
-			log.Fatalf("Attempting to open config file %s failed with error $s", viper.GetString("config"),err)
+			log.Fatalf("Attempting to open config file %s failed with error %s", viper.GetString("config"),err)
 		}
 	}
 
