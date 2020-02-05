@@ -1,0 +1,9 @@
+PATH=/opt/sge/bin:/opt/sge/bin/lx-amd64:/opt/amazon/openmpi/bin:/opt/amazon/efa/bin/:/opt/sge/bin:/opt/sge/bin/lx-amd64:/opt/amazon/openmpi/bin:/opt/amazon/efa/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+SGE_ARCH=lx-amd64
+SGE_CELL=default
+SGE_EXECD_PORT=6445
+SGE_QMASTER_PORT=6444
+SGE_ROOT=/opt/sge
+SGE_CLUSTER_NAME=p6444
+
+

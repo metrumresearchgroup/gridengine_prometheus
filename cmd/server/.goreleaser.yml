@@ -44,7 +44,6 @@ nfpms:
 
     # Packages your package depends on.
     dependencies:
-      - systemd
       - bash
 
     # Packages your package recommends installing.
@@ -53,20 +52,23 @@ nfpms:
       - git
 
     # Override default /usr/local/bin destination for binaries
-    bindir: /usr/local/bin
+    bindir: /usr/local/bin/
 
     # Empty folders that should be created and managed by the packager
     # implementation.
     # Default is empty.
     empty_folders:
     - /var/log/gridengine_prometheus
+    - /etc/gridengine_prometheus
 
     # Files or directories to add to your package (beyond the binary).
     # Keys are source paths/globs to get the files from.
     # Values are the destination locations of the files in the package.
     files:
       "scripts/gridengine_prometheus.service": "/etc/systemd/system/gridengine_prometheus.service"
-      "scripts/environment.file": "/etc/default/gridengine_prometheus"
+      "scripts/gridengine_prometheus.sh" : "/etc/init.d/gridengine_prometheus"
+      "scripts/gridengine_prometheus.yaml" : "/etc/gridengine_prometheus/config.yaml"
+
 
     # Scripts to execute during the installation of the package.
     # Keys are the possible targets during the installation process

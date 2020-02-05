@@ -1,7 +1,6 @@
-package main
+package cmd
 
 import (
-	"os"
 	"testing"
 )
 
@@ -9,7 +8,7 @@ func TestWritePidFile(t *testing.T) {
 	normal := "/tmp/meow.pid"
 	invalid := "/foo/bar/baz/qux.pid"
 	type args struct {
-		pidFile *string
+		pidFile string
 	}
 	tests := []struct {
 		name    string
@@ -19,14 +18,14 @@ func TestWritePidFile(t *testing.T) {
 		{
 			name: "Normal location",
 			args: args{
-				pidFile: &normal,
+				pidFile: normal,
 			},
 			wantErr: false,
 		},
 		{
 			name: "Invalid location",
 			args: args{
-				pidFile: &invalid,
+				pidFile: invalid,
 			},
 			wantErr: true,
 		},
@@ -38,27 +37,4 @@ func TestWritePidFile(t *testing.T) {
 			}
 		})
 	}
-}
-
-func TestSetup(t *testing.T) {
-	os.Unsetenv("GOGRIDENGINE_TEST")
-	setup()
-
-	if isTest {
-		t.Errorf("Test should not be set at this point")
-	}
-
-	random.Int()
-	random.Float64()
-
-	os.Setenv("GOGRIDENGINE_TEST", "true")
-
-	setup()
-
-	if !isTest {
-		t.Errorf("Test mode should be set now")
-	}
-
-	os.Setenv("LISTEN_PORT", "9014")
-	setup()
 }

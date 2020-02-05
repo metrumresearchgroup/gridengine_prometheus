@@ -1,4 +1,4 @@
-package main
+package gridengine_prometheus
 
 import (
 	"encoding/xml"
@@ -28,7 +28,7 @@ type GridEngine struct {
 	JobSlots    *prometheus.Desc
 }
 
-func newGridEngine() *GridEngine {
+func NewGridEngine() *GridEngine {
 	return &GridEngine{
 		TotalSlots: prometheus.NewDesc(
 			"total_slots_count",
