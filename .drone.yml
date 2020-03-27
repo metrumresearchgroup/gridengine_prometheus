@@ -10,10 +10,6 @@ steps:
     image: golang
     commands:
       - go test ./... -covermode=count -coverprofile=coverage.out
-    when:
-    event:
-      exclude:
-        - pull_request
 
   - name: Coverall Work
     image: golang
