@@ -26,64 +26,86 @@ type GridEngine struct {
 	JobState    *prometheus.Desc
 	JobPriority *prometheus.Desc
 	JobSlots    *prometheus.Desc
+	JobErrors   *prometheus.Desc
 }
 
 func NewGridEngine() *GridEngine {
+
+	hostLabels := []string{
+		"hostname",
+		"queue",
+	}
+
+	jobLabels := []string{
+		"hostname",
+		"queue",
+		"name",
+		"owner",
+		"job_number",
+		"task_id",
+		"state",
+	}
+
 	return &GridEngine{
 		TotalSlots: prometheus.NewDesc(
 			"total_slots_count",
 			"Total Number of slots available to the host",
-			[]string{"hostname", "queue"},
+			hostLabels,
 			nil),
 		UsedSlots: prometheus.NewDesc(
 			"used_slots_count",
 			"Number of used slots on host",
-			[]string{"hostname", "queue"},
+			hostLabels,
 			nil),
 		ReservedSlots: prometheus.NewDesc(
 			"reserved_slots_count",
 			"Number of reserved slots on host",
-			[]string{"hostname", "queue"},
+			hostLabels,
 			nil),
 		LoadAverage: prometheus.NewDesc(
 			"sge_load_average",
 			"Load average of this specific SGE host",
-			[]string{"hostname", "queue"},
+			hostLabels,
 			nil),
 		FreeMemory: prometheus.NewDesc(
 			"free_memory_bytes",
 			"Number of bytes in free memory",
-			[]string{"hostname", "queue"},
+			hostLabels,
 			nil),
 		UsedMemory: prometheus.NewDesc(
 			"sge_used_memory_bytes",
 			"Number of bytes in used memory",
-			[]string{"hostname", "queue"},
+			hostLabels,
 			nil),
 		TotalMemory: prometheus.NewDesc(
 			"sge_total_memory_bytes",
 			"Number of bytes in total memory",
-			[]string{"hostname", "queue"},
+			hostLabels,
 			nil),
 		CPUUtilization: prometheus.NewDesc(
 			"sge_cpu_utilization_percent",
 			"Decimal representing total CPU utilization on host",
-			[]string{"hostname", "queue"},
+			hostLabels,
 			nil),
 		JobState: prometheus.NewDesc(
 			"job_state_value",
 			"Indicates whether job is running (1) or not (0)",
-			[]string{"hostname", "queue", "name", "owner", "job_number", "task_id", "state"},
+			jobLabels,
 			nil),
 		JobPriority: prometheus.NewDesc(
 			"job_priority_value",
 			"Qstat priority for given job",
-			[]string{"hostname", "queue", "name", "owner", "job_number", "task_id", "state"},
+			jobLabels,
 			nil),
 		JobSlots: prometheus.NewDesc(
 			"job_slots_count",
 			"Number of slots on the selected job",
-			[]string{"hostname", "queue", "name", "owner", "job_number", "task_id", "state"},
+			jobLabels,
+			nil),
+		JobErrors: prometheus.NewDesc(
+			"job_errors",
+			"Jobs that are reported in an errored or anomalous state",
+			jobLabels,
 			nil),
 	}
 }
@@ -204,4 +226,5 @@ func processJob(j gogridengine.Job, ch chan<- prometheus.Metric, collector *Grid
 	ch <- prometheus.MustNewConstMetric(collector.JobState, prometheus.GaugeValue, float64(gogridengine.IsJobRunning(j)), hostname, queue, name, owner, number, taskID, j.State)
 	ch <- prometheus.MustNewConstMetric(collector.JobPriority, prometheus.GaugeValue, j.JATPriority, hostname, queue, name, owner, number, taskID, j.State)
 	ch <- prometheus.MustNewConstMetric(collector.JobSlots, prometheus.GaugeValue, float64(j.Slots), hostname, queue, name, owner, number, taskID, j.State)
+	ch <- prometheus.MustNewConstMetric(collector.JobErrors, prometheus.GaugeValue, float64(gogridengine.IsJobInErrorState(j)), hostname, queue, name, owner, number, taskID, j.State)
 }
