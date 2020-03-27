@@ -73,17 +73,17 @@ func NewGridEngine() *GridEngine {
 		JobState: prometheus.NewDesc(
 			"job_state_value",
 			"Indicates whether job is running (1) or not (0)",
-			[]string{"hostname", "queue", "name", "owner", "job_number", "task_id"},
+			[]string{"hostname", "queue", "name", "owner", "job_number", "task_id", "state"},
 			nil),
 		JobPriority: prometheus.NewDesc(
 			"job_priority_value",
 			"Qstat priority for given job",
-			[]string{"hostname", "queue", "name", "owner", "job_number", "task_id"},
+			[]string{"hostname", "queue", "name", "owner", "job_number", "task_id", "state"},
 			nil),
 		JobSlots: prometheus.NewDesc(
 			"job_slots_count",
 			"Number of slots on the selected job",
-			[]string{"hostname", "queue", "name", "owner", "job_number", "task_id"},
+			[]string{"hostname", "queue", "name", "owner", "job_number", "task_id", "state"},
 			nil),
 	}
 }
@@ -201,7 +201,7 @@ func processJob(j gogridengine.Job, ch chan<- prometheus.Metric, collector *Grid
 	number := strconv.FormatInt(j.JBJobNumber, 10)
 	taskID := strconv.Itoa(int(j.Tasks.TaskID))
 
-	ch <- prometheus.MustNewConstMetric(collector.JobState, prometheus.GaugeValue, float64(gogridengine.IsJobRunning(j)), hostname, queue, name, owner, number, taskID)
-	ch <- prometheus.MustNewConstMetric(collector.JobPriority, prometheus.GaugeValue, j.JATPriority, hostname, queue, name, owner, number, taskID)
-	ch <- prometheus.MustNewConstMetric(collector.JobSlots, prometheus.GaugeValue, float64(j.Slots), hostname, queue, name, owner, number, taskID)
+	ch <- prometheus.MustNewConstMetric(collector.JobState, prometheus.GaugeValue, float64(gogridengine.IsJobRunning(j)), hostname, queue, name, owner, number, taskID, j.State)
+	ch <- prometheus.MustNewConstMetric(collector.JobPriority, prometheus.GaugeValue, j.JATPriority, hostname, queue, name, owner, number, taskID, j.State)
+	ch <- prometheus.MustNewConstMetric(collector.JobSlots, prometheus.GaugeValue, float64(j.Slots), hostname, queue, name, owner, number, taskID, j.State)
 }
