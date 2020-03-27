@@ -83,6 +83,8 @@ github.com/metrumresearchgroup/gogridengine v0.0.0-20191218182527-bc69784db233 h
 github.com/metrumresearchgroup/gogridengine v0.0.0-20191218182527-bc69784db233/go.mod h1:opfxgPaKkfTsV5EbwTkH3oUMAyJE7VL1twLdhEPXorg=
 github.com/metrumresearchgroup/gogridengine v0.0.0-20191225174611-35c8b62cd3fe h1:Gl5qwfu5Q0ZSaLN5Z0EEIXVhVDzH0M+QudJhabyfJQ0=
 github.com/metrumresearchgroup/gogridengine v0.0.0-20191225174611-35c8b62cd3fe/go.mod h1:opfxgPaKkfTsV5EbwTkH3oUMAyJE7VL1twLdhEPXorg=
+github.com/metrumresearchgroup/gogridengine v0.0.1 h1:QG+ynp0mC7ydrZOsIIRYl87bwzfb2UEFfB5KbUgHuv4=
+github.com/metrumresearchgroup/gogridengine v0.0.1/go.mod h1:opfxgPaKkfTsV5EbwTkH3oUMAyJE7VL1twLdhEPXorg=
 github.com/mitchellh/go-homedir v1.1.0 h1:lukF9ziXFxDFPkA1vsr5zpc1XuPDn/wFntq5mG+4E0Y=
 github.com/mitchellh/go-homedir v1.1.0/go.mod h1:SfyaCUpYCn1Vlf4IUYiD9fPX4A5wJrkLzIz1N1q0pr0=
 github.com/mitchellh/mapstructure v1.1.2 h1:fmNYVwqnSfB9mZU6OS2O6GsXM+wcskZDuKQzvN1EDeE=

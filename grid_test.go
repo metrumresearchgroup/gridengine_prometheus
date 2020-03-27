@@ -76,6 +76,11 @@ func Test_newGridEngine(t *testing.T) {
 					"Number of slots on the selected job",
 					[]string{"hostname", "queue", "name", "owner", "job_number", "task_id", "state"},
 					nil),
+				JobErrors: prometheus.NewDesc(
+					"job_errors",
+					"Jobs that are reported in an errored or anomalous state",
+					[]string{"hostname", "queue", "name", "owner", "job_number", "task_id", "state"},
+					nil),
 			},
 		},
 	}
@@ -175,6 +180,7 @@ func TestGridEngine_Collect(t *testing.T) {
 		JobState       *prometheus.Desc
 		JobPriority    *prometheus.Desc
 		JobSlots       *prometheus.Desc
+		JobErrors 	   *prometheus.Desc
 	}
 	type args struct {
 		ch chan<- prometheus.Metric
@@ -198,6 +204,7 @@ func TestGridEngine_Collect(t *testing.T) {
 				JobState:       description.JobState,
 				JobPriority:    description.JobPriority,
 				JobSlots:       description.JobSlots,
+				JobErrors:      description.JobErrors,
 			},
 			args: args{
 				ch: channel,
@@ -218,6 +225,7 @@ func TestGridEngine_Collect(t *testing.T) {
 				JobState:       tt.fields.JobState,
 				JobPriority:    tt.fields.JobPriority,
 				JobSlots:       tt.fields.JobSlots,
+				JobErrors: tt.fields.JobErrors,
 			}
 			collector.Collect(tt.args.ch)
 		})
