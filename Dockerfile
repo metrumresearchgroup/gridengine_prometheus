@@ -1,13 +1,10 @@
-FROM golang:alpine as BUILD
+FROM golang:alpine
 
-RUN apk update && apk add --no-cache git
-
-WORKDIR $GOPATH/src/metrumresearchgroup/gridengine_prometheus
+WORKDIR /app
 
 COPY . .
 
-RUN go get -d -v && \
-    go build -o /go/bin/gridengine_exporter
+RUN go build -o /app/gridengine_exporter cmd/server/main.go
 
 EXPOSE 9081
-ENTRYPOINT ["/go/bin/gridengine_exporter"]
+ENTRYPOINT ["/app/gridengine_exporter"]
