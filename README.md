@@ -11,13 +11,13 @@ This is a Prometheus exporter for the Sun Grid Engine meant to be run on your ma
 `LISTEN_PORT` : Defines what port the application should listen on
 
 # Running
-There is one optional flag available to the binary, which is `-pidfile`. This should indicate where the pidfile for the application should be placed, and primarily services to facilitate service managers such as uptstart or systemd.
+There is one optional flag available to the binary, which is `--pidfile`. This should indicate where the pidfile for the application should be placed, and primarily services to facilitate service managers such as uptstart or systemd.
 
 ## Default
 `./gridengine_prometheus`
 This will run the application on the default port (9081)
 
-`./gridengine_prometheus -pidfile /tmp/pid.pid`
+`./gridengine_prometheus --pidfile /tmp/pid.pid`
 
 Will run the application on the default port and write it's PID into a file located at `/tmp/pid.pid`
 
