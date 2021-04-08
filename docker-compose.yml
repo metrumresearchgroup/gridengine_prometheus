@@ -1,12 +1,14 @@
 version: '3'
 services:
   exporter:
-    build: .
-    ports:
-      - "9081:9081"
-    command: "-pidfile /tmp/meow.pid"
+    image: sge_exporter
     environment:
-      TEST: "true"
+      SGE_CELL: "YOUR_SGE_CELL"
+      PORT: "YOUR_PORT"
+    volumes:
+      - /var/lib/gridengine:/var/lib/gridengine:ro
+      - /usr/lib/gridengine:/usr/lib/gridengine:ro
+    network_mode: "host"
   prometheus:
     image: "prom/prometheus"
     volumes:

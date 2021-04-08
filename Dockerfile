@@ -15,7 +15,6 @@ RUN    apt-get -qq update >/dev/null 2>&1 \
     && echo '/usr/local/bin/gridengine_exporter --sge_root /var/lib/gridengine --sge_cell $SGE_CELL --port $PORT' >> /usr/local/bin/launch_sge_exporter.sh \
     && chmod +x /usr/local/bin/launch_sge_exporter.sh
 COPY --from=compiler /go/gridengine_prometheus/gridengine_exporter /usr/local/bin/
-#COPY ./launch_sge_exporter.sh /usr/local/bin/
 ENV SGE_CELL default
 ENV PORT 9081
 ENTRYPOINT /usr/local/bin/launch_sge_exporter.sh
