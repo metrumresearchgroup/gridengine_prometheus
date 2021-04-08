@@ -212,13 +212,13 @@ func setSGEEnvironmentVariables() error {
 		return err
 	}
 
-	err = os.Setenv("SGE_EXECD_PORT",string(viper.GetInt("sge.execd_port")))
+	err = os.Setenv("SGE_EXECD_PORT",string(rune(viper.GetInt("sge.execd_port"))))
 
 	if err != nil {
 		return err
 	}
 
-	err = os.Setenv("SGE_QMASTER_PORT",string(viper.GetInt("sge.qmaster_port")))
+	err = os.Setenv("SGE_QMASTER_PORT",string(rune(viper.GetInt("sge.qmaster_port"))))
 
 	if err != nil {
 		return err
