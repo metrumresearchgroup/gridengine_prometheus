@@ -9,6 +9,8 @@ steps:
   - name: Testing
     image: golang
     commands:
+      - go mod tidy
+      - go mod download
       - go test ./... -covermode=count -coverprofile=coverage.out
 
   - name: Coverall Work
