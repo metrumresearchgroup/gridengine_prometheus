@@ -3,12 +3,6 @@ package cmd
 import (
 	"errors"
 	"fmt"
-	"github.com/metrumresearchgroup/gridengine_prometheus"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
-	log "github.com/sirupsen/logrus"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
@@ -17,16 +11,26 @@ import (
 	"strconv"
 	"syscall"
 	"time"
+
+	go_kit_log "github.com/go-kit/log"
+	"github.com/metrumresearchgroup/gridengine_prometheus"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/prometheus/common/promlog"
+	"github.com/prometheus/exporter-toolkit/web"
+	log "github.com/sirupsen/logrus"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
-const(
+const (
 	ServiceName string = "gridengine_prometheus"
 	viperSGEKey string = "sge."
 )
 
 var entropy rand.Source
 var random *rand.Rand
-
+var logger go_kit_log.Logger // go-kit logger is used only by exporter-toolkit
 var RootCmd = &cobra.Command{
 	Use:                        "gridengine_prometheus",
 	Short:                      "Start the exporter",
@@ -39,6 +43,8 @@ func Start( cmd *cobra.Command, args []string){
 
 	entropy = rand.NewSource(time.Now().UnixNano())
 	random = rand.New(entropy)
+	promlogConfig := &promlog.Config{}
+	logger = promlog.New(promlogConfig)
 
 	if viper.GetBool("test") {
 		//set the underlying gogridengine variable
@@ -87,10 +93,11 @@ func Start( cmd *cobra.Command, args []string){
 	prometheus.MustRegister(sge)
 
 	http.Handle("/metrics", promhttp.Handler())
-
+	listenAddress := fmt.Sprintf(":%d", viper.GetInt("port"))
+	server := &http.Server{Addr: listenAddress}
 	log.Infof("Getting ready to start exporter on port %d", viper.GetInt("port"))
 
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d",viper.GetInt("port")), nil))
+	log.Fatal(web.ListenAndServe(server, viper.GetString("tls_config"), logger), nil)
 }
 
 func init(){
@@ -99,8 +106,12 @@ func init(){
 	viper.BindPFlag(pidFileIdentifier, RootCmd.PersistentFlags().Lookup(pidFileIdentifier))
 
 	listenPortIdentifier := "port"
-	RootCmd.PersistentFlags().Int(listenPortIdentifier,9081,"The port on which the collector should listen")
-	viper.BindPFlag(listenPortIdentifier,RootCmd.PersistentFlags().Lookup(listenPortIdentifier))
+	RootCmd.PersistentFlags().Int(listenPortIdentifier, 9081, "The port on which the collector should listen")
+	viper.BindPFlag(listenPortIdentifier, RootCmd.PersistentFlags().Lookup(listenPortIdentifier))
+
+	tlsConfigFile := "tls_config"
+	RootCmd.PersistentFlags().String(tlsConfigFile, "", "TLS config with paths to crt and pey files to be used by https")
+	viper.BindPFlag(tlsConfigFile, RootCmd.PersistentFlags().Lookup(tlsConfigFile))
 
 	testModeIdentifier := "test"
 	RootCmd.PersistentFlags().Bool(testModeIdentifier,false,"Indicates whether the underlying gogridengine should be run in test mode")

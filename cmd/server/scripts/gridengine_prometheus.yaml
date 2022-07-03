@@ -1,6 +1,7 @@
 test: false
 port: 9081
 pidfile: "/var/run/gridengine_prometheus.pid"
+tls_config: ""
 sge:
   arch: "lx-amd64"
   cell: "default"
