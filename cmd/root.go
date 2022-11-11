@@ -32,14 +32,14 @@ var entropy rand.Source
 var random *rand.Rand
 var logger go_kit_log.Logger // go-kit logger is used only by exporter-toolkit
 var RootCmd = &cobra.Command{
-	Use:                        "gridengine_prometheus",
-	Short:                      "Start the exporter",
-	Long:                       "Start the prometheus exporter and listen for requests",
-	Example:                    `gridengine_prometheus --pidfile /var/run/gridengine_prometheus.pid --port 9018`,
-	Run: Start,
+	Use:     "gridengine_prometheus",
+	Short:   "Start the exporter",
+	Long:    "Start the prometheus exporter and listen for requests",
+	Example: `gridengine_prometheus --pidfile /var/run/gridengine_prometheus.pid --port 9018`,
+	Run:     Start,
 }
 
-func Start( cmd *cobra.Command, args []string){
+func Start(cmd *cobra.Command, args []string) {
 
 	entropy = rand.NewSource(time.Now().UnixNano())
 	random = rand.New(entropy)
@@ -48,7 +48,7 @@ func Start( cmd *cobra.Command, args []string){
 
 	if viper.GetBool("test") {
 		//set the underlying gogridengine variable
-		err := os.Setenv("GOGRIDENGINE_TEST","true")
+		err := os.Setenv("GOGRIDENGINE_TEST", "true")
 
 		if err != nil {
 			log.Fatalf("Attempting to set Gogridengine test variables failed: %s", err)
@@ -58,11 +58,11 @@ func Start( cmd *cobra.Command, args []string){
 	if len(viper.GetString("config")) > 0 {
 		err := readProvidedConfig(viper.GetString("config"))
 		if err != nil {
-			log.Fatalf("Attempting to open config file %s failed with error %s", viper.GetString("config"),err)
+			log.Fatalf("Attempting to open config file %s failed with error %s", viper.GetString("config"), err)
 		}
 	}
 
-	if viper.GetBool("debug"){
+	if viper.GetBool("debug") {
 		config := Config{}
 		viper.Unmarshal(&config)
 		log.Info(config)
@@ -78,9 +78,8 @@ func Start( cmd *cobra.Command, args []string){
 	//Set the SGE Envs for the application
 	err = setSGEEnvironmentVariables()
 	if err != nil {
-		log.Fatalf("Unable to set SGE environment variables. Details: %s",err)
+		log.Fatalf("Unable to set SGE environment variables. Details: %s", err)
 	}
-
 
 	if len(viper.GetString("pidfile")) > 0 {
 		err := writePidFile(viper.GetString("pidfile"))
@@ -100,9 +99,9 @@ func Start( cmd *cobra.Command, args []string){
 	log.Fatal(web.ListenAndServe(server, viper.GetString("tls_config"), logger), nil)
 }
 
-func init(){
+func init() {
 	pidFileIdentifier := "pidfile"
-	RootCmd.PersistentFlags().String(pidFileIdentifier,"/var/run/" + ServiceName,"Location in which to store a pidfile. Most useful for SystemV daemons")
+	RootCmd.PersistentFlags().String(pidFileIdentifier, "/var/run/"+ServiceName, "Location in which to store a pidfile. Most useful for SystemV daemons")
 	viper.BindPFlag(pidFileIdentifier, RootCmd.PersistentFlags().Lookup(pidFileIdentifier))
 
 	listenPortIdentifier := "port"
@@ -114,41 +113,41 @@ func init(){
 	viper.BindPFlag(tlsConfigFile, RootCmd.PersistentFlags().Lookup(tlsConfigFile))
 
 	testModeIdentifier := "test"
-	RootCmd.PersistentFlags().Bool(testModeIdentifier,false,"Indicates whether the underlying gogridengine should be run in test mode")
-	viper.BindPFlag(testModeIdentifier,RootCmd.PersistentFlags().Lookup(testModeIdentifier))
+	RootCmd.PersistentFlags().Bool(testModeIdentifier, false, "Indicates whether the underlying gogridengine should be run in test mode")
+	viper.BindPFlag(testModeIdentifier, RootCmd.PersistentFlags().Lookup(testModeIdentifier))
 
 	configFileIdentifier := "config"
-	RootCmd.PersistentFlags().String(configFileIdentifier,"", "Specifies a viper config to load. Should be in yaml format")
-	viper.BindPFlag(configFileIdentifier,RootCmd.PersistentFlags().Lookup(configFileIdentifier))
+	RootCmd.PersistentFlags().String(configFileIdentifier, "", "Specifies a viper config to load. Should be in yaml format")
+	viper.BindPFlag(configFileIdentifier, RootCmd.PersistentFlags().Lookup(configFileIdentifier))
 
 	debugIdentifier := "debug"
-	RootCmd.PersistentFlags().Bool(debugIdentifier,false,"Whether or not debug is on")
+	RootCmd.PersistentFlags().Bool(debugIdentifier, false, "Whether or not debug is on")
 	viper.BindPFlag(debugIdentifier, RootCmd.PersistentFlags().Lookup(debugIdentifier))
 
 	//SGE Configurations
 	sgeArchIdentifier := "sge_arch"
-	RootCmd.PersistentFlags().String(sgeArchIdentifier,"lx-amd64","Identifies the architecture of the Sun Grid Engine")
-	viper.BindPFlag(viperSGEKey + "arch",RootCmd.PersistentFlags().Lookup(sgeArchIdentifier))
+	RootCmd.PersistentFlags().String(sgeArchIdentifier, "lx-amd64", "Identifies the architecture of the Sun Grid Engine")
+	viper.BindPFlag(viperSGEKey+"arch", RootCmd.PersistentFlags().Lookup(sgeArchIdentifier))
 
 	sgeCellIdentifier := "sge_cell"
-	RootCmd.PersistentFlags().String(sgeCellIdentifier,"default","The SGE Cell to use")
-	viper.BindPFlag(viperSGEKey + "cell", RootCmd.PersistentFlags().Lookup(sgeCellIdentifier))
+	RootCmd.PersistentFlags().String(sgeCellIdentifier, "default", "The SGE Cell to use")
+	viper.BindPFlag(viperSGEKey+"cell", RootCmd.PersistentFlags().Lookup(sgeCellIdentifier))
 
 	sgeExecDPortIdentifier := "sge_execd_port"
-	RootCmd.PersistentFlags().Int(sgeExecDPortIdentifier,6445,"Port for the execution daemon in the grid engine")
-	viper.BindPFlag(viperSGEKey + "execd_port", RootCmd.PersistentFlags().Lookup(sgeExecDPortIdentifier))
+	RootCmd.PersistentFlags().Int(sgeExecDPortIdentifier, 1301, "Port for the execution daemon in the grid engine")
+	viper.BindPFlag(viperSGEKey+"execd_port", RootCmd.PersistentFlags().Lookup(sgeExecDPortIdentifier))
 
 	sgeQmasterPortIdentifier := "sge_qmaster_port"
-	RootCmd.PersistentFlags().Int(sgeQmasterPortIdentifier,6445,"Port for the master scheduling daemon in the grid engine")
-	viper.BindPFlag(viperSGEKey + "qmaster_port", RootCmd.PersistentFlags().Lookup(sgeQmasterPortIdentifier))
+	RootCmd.PersistentFlags().Int(sgeQmasterPortIdentifier, 1300, "Port for the master scheduling daemon in the grid engine")
+	viper.BindPFlag(viperSGEKey+"qmaster_port", RootCmd.PersistentFlags().Lookup(sgeQmasterPortIdentifier))
 
 	sgeRootIdentifier := "sge_root"
-	RootCmd.PersistentFlags().String(sgeRootIdentifier,"/opt/sge", "The root location for SGE bianries")
-	viper.BindPFlag(viperSGEKey + "root", RootCmd.PersistentFlags().Lookup(sgeRootIdentifier))
+	RootCmd.PersistentFlags().String(sgeRootIdentifier, "/opt/sge", "The root location for SGE bianries")
+	viper.BindPFlag(viperSGEKey+"root", RootCmd.PersistentFlags().Lookup(sgeRootIdentifier))
 
 	sgeClusterNameIdentifier := "sge_cluster_name"
-	RootCmd.PersistentFlags().String(sgeClusterNameIdentifier,"p6444","Name of the SGE Cluster to bind to")
-	viper.BindPFlag(viperSGEKey + "cluster_name",RootCmd.PersistentFlags().Lookup(sgeClusterNameIdentifier))
+	RootCmd.PersistentFlags().String(sgeClusterNameIdentifier, "p6444", "Name of the SGE Cluster to bind to")
+	viper.BindPFlag(viperSGEKey+"cluster_name", RootCmd.PersistentFlags().Lookup(sgeClusterNameIdentifier))
 }
 
 func writePidFile(pidFile string) error {
@@ -188,7 +187,7 @@ func readProvidedConfig(path string) error {
 
 func validateSGE() error {
 
-	if len(viper.GetString("sge.arch")) == 0{
+	if len(viper.GetString("sge.arch")) == 0 {
 		return errors.New("the SGE architecture has not been provided")
 	}
 
@@ -212,7 +211,7 @@ func validateSGE() error {
 }
 
 func setSGEEnvironmentVariables() error {
-	err := os.Setenv("SGE_ARCH",viper.GetString("sge.arch"))
+	err := os.Setenv("SGE_ARCH", viper.GetString("sge.arch"))
 	if err != nil {
 		return err
 	}
@@ -223,13 +222,13 @@ func setSGEEnvironmentVariables() error {
 		return err
 	}
 
-	err = os.Setenv("SGE_EXECD_PORT",string(rune(viper.GetInt("sge.execd_port"))))
+	err = os.Setenv("SGE_EXECD_PORT", fmt.Sprint(viper.GetInt("sge.execd_port")))
 
 	if err != nil {
 		return err
 	}
 
-	err = os.Setenv("SGE_QMASTER_PORT",string(rune(viper.GetInt("sge.qmaster_port"))))
+	err = os.Setenv("SGE_QMASTER_PORT", fmt.Sprint(viper.GetInt("sge.qmaster_port")))
 
 	if err != nil {
 		return err
@@ -243,9 +242,9 @@ func setSGEEnvironmentVariables() error {
 
 	//Update Path to include SGE_ROOT BIN and any dirs matching  arch path
 	path := os.Getenv("PATH")
-	binPath := filepath.Join(viper.GetString("sge.root"),"bin")
-	archPath := filepath.Join(binPath,viper.GetString("sge.arch"))
-	err = os.Setenv("PATH", path + ":" + binPath + ":" + archPath)
+	binPath := filepath.Join(viper.GetString("sge.root"), "bin")
+	archPath := filepath.Join(binPath, viper.GetString("sge.arch"))
+	err = os.Setenv("PATH", path+":"+binPath+":"+archPath)
 
 	if err != nil {
 		return err
@@ -260,20 +259,18 @@ func setSGEEnvironmentVariables() error {
 	return nil
 }
 
-
 type Config struct {
-	Test bool `yaml:"test" json:"test"`
-	Port int `yaml:"port" josn:"port"`
+	Test    bool   `yaml:"test" json:"test"`
+	Port    int    `yaml:"port" josn:"port"`
 	Pidfile string `yaml:"pidfile" json:"pidfile"`
-	SGE SGE `mapstructure:"sge"`
-
+	SGE     SGE    `mapstructure:"sge"`
 }
 
 type SGE struct {
-	Arch string `yaml:"arch" json:"arch"`
-	Cell string `yaml:"cell" json:"cell"`
-	ExecdPort int `yaml:"execd_port" json:"execd_port" mapstructure:"execd_port"`
-	QmasterPort int `yaml:"qmaster_port" json:"qmaster_port" mapstructure:"qmaster_port"`
-	Root string `yaml:"root" json:"root"`
+	Arch        string `yaml:"arch" json:"arch"`
+	Cell        string `yaml:"cell" json:"cell"`
+	ExecdPort   int    `yaml:"execd_port" json:"execd_port" mapstructure:"execd_port"`
+	QmasterPort int    `yaml:"qmaster_port" json:"qmaster_port" mapstructure:"qmaster_port"`
+	Root        string `yaml:"root" json:"root"`
 	ClusterName string `yaml:"cluster_name" json:"cluster_name" mapstructure:"cluster_name"`
 }

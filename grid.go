@@ -6,9 +6,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/metrumresearchgroup/gogridengine"
 	"github.com/prometheus/client_golang/prometheus"
 	log "github.com/sirupsen/logrus"
+	"github.com/yuriykis/gogridengine"
 )
 
 //GridEngine is the default struct we will use for collection
@@ -18,10 +18,17 @@ type GridEngine struct {
 	ReservedSlots *prometheus.Desc
 	LoadAverage   *prometheus.Desc
 	//Resources
-	FreeMemory     *prometheus.Desc
-	UsedMemory     *prometheus.Desc
-	TotalMemory    *prometheus.Desc
-	CPUUtilization *prometheus.Desc
+	FreeMemory         *prometheus.Desc
+	UsedMemory         *prometheus.Desc
+	TotalMemory        *prometheus.Desc
+	CPUUtilization     *prometheus.Desc
+	NPLoadAverage      *prometheus.Desc
+	VirtualTotalMemory *prometheus.Desc
+	VirtualUsedMemory  *prometheus.Desc
+	VirtualFreeMemory  *prometheus.Desc
+	SwapTotal          *prometheus.Desc
+	SwapUsed           *prometheus.Desc
+	SwapFree           *prometheus.Desc
 	//Job Details
 	JobState    *prometheus.Desc
 	JobPriority *prometheus.Desc
@@ -48,17 +55,17 @@ func NewGridEngine() *GridEngine {
 
 	return &GridEngine{
 		TotalSlots: prometheus.NewDesc(
-			"total_slots_count",
+			"sge_total_slots_count",
 			"Total Number of slots available to the host",
 			hostLabels,
 			nil),
 		UsedSlots: prometheus.NewDesc(
-			"used_slots_count",
+			"sge_used_slots_count",
 			"Number of used slots on host",
 			hostLabels,
 			nil),
 		ReservedSlots: prometheus.NewDesc(
-			"reserved_slots_count",
+			"sge_reserved_slots_count",
 			"Number of reserved slots on host",
 			hostLabels,
 			nil),
@@ -68,7 +75,7 @@ func NewGridEngine() *GridEngine {
 			hostLabels,
 			nil),
 		FreeMemory: prometheus.NewDesc(
-			"free_memory_bytes",
+			"sge_free_memory_bytes",
 			"Number of bytes in free memory",
 			hostLabels,
 			nil),
@@ -87,23 +94,58 @@ func NewGridEngine() *GridEngine {
 			"Decimal representing total CPU utilization on host",
 			hostLabels,
 			nil),
+		NPLoadAverage: prometheus.NewDesc(
+			"sge_np_load_avg",
+			"Decimal representing medium time average OS run queue length",
+			hostLabels,
+			nil),
+		VirtualTotalMemory: prometheus.NewDesc(
+			"sge_total_virtual_memory_bytes",
+			"Number of bytes of total virtual memory",
+			hostLabels,
+			nil),
+		VirtualUsedMemory: prometheus.NewDesc(
+			"sge_used_virtual_memory_bytes",
+			"Number of bytes of used virtual memory",
+			hostLabels,
+			nil),
+		VirtualFreeMemory: prometheus.NewDesc(
+			"sge_free_virtual_memory_bytes",
+			"Number of bytes of free virtual memory",
+			hostLabels,
+			nil),
+		SwapTotal: prometheus.NewDesc(
+			"sge_swap_total_bytes",
+			"Number of bytes of swap total",
+			hostLabels,
+			nil),
+		SwapUsed: prometheus.NewDesc(
+			"sge_swap_used_bytes",
+			"Number of bytes of swap used",
+			hostLabels,
+			nil),
+		SwapFree: prometheus.NewDesc(
+			"sge_swap_free_bytes",
+			"Number of bytes of swap free",
+			hostLabels,
+			nil),
 		JobState: prometheus.NewDesc(
-			"job_state_value",
+			"sge_job_state_value",
 			"Indicates whether job is running (1) or not (0)",
 			jobLabels,
 			nil),
 		JobPriority: prometheus.NewDesc(
-			"job_priority_value",
+			"sge_job_priority_value",
 			"Qstat priority for given job",
 			jobLabels,
 			nil),
 		JobSlots: prometheus.NewDesc(
-			"job_slots_count",
+			"sge_job_slots_count",
 			"Number of slots on the selected job",
 			jobLabels,
 			nil),
 		JobErrors: prometheus.NewDesc(
-			"job_errors",
+			"sge_job_errors",
 			"Jobs that are reported in an errored or anomalous state",
 			jobLabels,
 			nil),
@@ -121,6 +163,13 @@ func (collector *GridEngine) Describe(ch chan<- *prometheus.Desc) {
 	ch <- collector.UsedMemory
 	ch <- collector.TotalMemory
 	ch <- collector.CPUUtilization
+	ch <- collector.NPLoadAverage
+	ch <- collector.VirtualTotalMemory
+	ch <- collector.VirtualUsedMemory
+	ch <- collector.VirtualFreeMemory
+	ch <- collector.SwapTotal
+	ch <- collector.SwapUsed
+	ch <- collector.SwapFree
 	//Job Components -> Additional Labels for identification
 	ch <- collector.JobState
 	ch <- collector.JobPriority
@@ -156,10 +205,16 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 		ch <- prometheus.MustNewConstMetric(collector.UsedSlots, prometheus.GaugeValue, float64(ql.SlotsUsed), hostname, queue)
 		ch <- prometheus.MustNewConstMetric(collector.ReservedSlots, prometheus.GaugeValue, float64(ql.SlotsReserved), hostname, queue)
 		ch <- prometheus.MustNewConstMetric(collector.TotalSlots, prometheus.GaugeValue, float64(ql.SlotsTotal), hostname, queue)
-		ch <- prometheus.MustNewConstMetric(collector.LoadAverage, prometheus.GaugeValue, ql.LoadAverage, hostname, queue)
+
+		LoadAverage, err := ql.Resources.LoadAverageResource()
+
+		if err != nil {
+			log.WithError(err).Error("There was an error extracting LoadAverage from the resource list")
+			LoadAverage = 0
+		}
+		ch <- prometheus.MustNewConstMetric(collector.LoadAverage, prometheus.GaugeValue, LoadAverage, hostname, queue)
 
 		FreeMemory, err := ql.Resources.FreeMemory()
-
 		if err != nil {
 			log.WithError(err).Error("There was an error extracting Free Memory from the resource list")
 			FreeMemory = gogridengine.StorageValue{
@@ -191,6 +246,72 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 
 		ch <- prometheus.MustNewConstMetric(collector.TotalMemory, prometheus.GaugeValue, float64(TotalMemory.Bytes), hostname, queue)
 
+		VirtualMemoryTotal, err := ql.Resources.TotalVirtual()
+
+		if err != nil {
+			log.WithError(err).Error("There was an error extracting Total Virtual Memory from the resource list")
+			VirtualMemoryTotal = gogridengine.StorageValue{
+				Bytes: 0,
+			}
+		}
+
+		ch <- prometheus.MustNewConstMetric(collector.VirtualTotalMemory, prometheus.GaugeValue, float64(VirtualMemoryTotal.Bytes), hostname, queue)
+
+		VirtualMemoryUsed, err := ql.Resources.VirtualUsed()
+
+		if err != nil {
+			log.WithError(err).Error("There was an error extracting Used Virtual Memory from the resource list")
+			VirtualMemoryUsed = gogridengine.StorageValue{
+				Bytes: 0,
+			}
+		}
+
+		ch <- prometheus.MustNewConstMetric(collector.VirtualUsedMemory, prometheus.GaugeValue, float64(VirtualMemoryUsed.Bytes), hostname, queue)
+
+		VirtualMemoryFree, err := ql.Resources.FreeVirtualMemory()
+
+		if err != nil {
+			log.WithError(err).Error("There was an error extracting Free Virtual Memory from the resource list")
+			VirtualMemoryFree = gogridengine.StorageValue{
+				Bytes: 0,
+			}
+		}
+
+		ch <- prometheus.MustNewConstMetric(collector.VirtualFreeMemory, prometheus.GaugeValue, float64(VirtualMemoryFree.Bytes), hostname, queue)
+
+		SwapTotal, err := ql.Resources.TotalSwap()
+
+		if err != nil {
+			log.WithError(err).Error("There was an error extracting Total Swap from the resource list")
+			SwapTotal = gogridengine.StorageValue{
+				Bytes: 0,
+			}
+		}
+
+		ch <- prometheus.MustNewConstMetric(collector.SwapTotal, prometheus.GaugeValue, float64(SwapTotal.Bytes), hostname, queue)
+
+		SwapUsed, err := ql.Resources.SwapUsed()
+
+		if err != nil {
+			log.WithError(err).Error("There was an error extracting Used Swap from the resource list")
+			SwapUsed = gogridengine.StorageValue{
+				Bytes: 0,
+			}
+		}
+
+		ch <- prometheus.MustNewConstMetric(collector.SwapUsed, prometheus.GaugeValue, float64(SwapUsed.Bytes), hostname, queue)
+
+		SwapFree, err := ql.Resources.FreeSwap()
+
+		if err != nil {
+			log.WithError(err).Error("There was an error extracting Free Swap from the resource list")
+			SwapFree = gogridengine.StorageValue{
+				Bytes: 0,
+			}
+		}
+
+		ch <- prometheus.MustNewConstMetric(collector.SwapFree, prometheus.GaugeValue, float64(SwapFree.Bytes), hostname, queue)
+
 		CPUUtilization, err := ql.Resources.CPU()
 
 		if err != nil {
@@ -199,6 +320,15 @@ func (collector *GridEngine) Collect(ch chan<- prometheus.Metric) {
 		}
 
 		ch <- prometheus.MustNewConstMetric(collector.CPUUtilization, prometheus.GaugeValue, CPUUtilization, hostname, queue)
+
+		NPLoadAverage, err := ql.Resources.NPLoadAverage()
+
+		if err != nil {
+			log.WithError(err).Error("There was an error extracting NPLoadAverage from the resource list")
+			NPLoadAverage = 0
+		}
+
+		ch <- prometheus.MustNewConstMetric(collector.NPLoadAverage, prometheus.GaugeValue, NPLoadAverage, hostname, queue)
 
 		//Iterate over Running Jobs
 		for _, j := range ql.JobList {
