@@ -121,6 +121,8 @@ github.com/matttproud/golang_protobuf_extensions v1.0.1 h1:4hp9jkHxhMHkqkrB3Ix0j
 github.com/matttproud/golang_protobuf_extensions v1.0.1/go.mod h1:D8He9yQNgCq6Z5Ld7szi9bcBfOoFv/3dc6xSMkL2PC0=
 github.com/metrumresearchgroup/gogridengine v0.0.1 h1:QG+ynp0mC7ydrZOsIIRYl87bwzfb2UEFfB5KbUgHuv4=
 github.com/metrumresearchgroup/gogridengine v0.0.1/go.mod h1:opfxgPaKkfTsV5EbwTkH3oUMAyJE7VL1twLdhEPXorg=
+github.com/metrumresearchgroup/gogridengine v0.0.2-0.20231228183543-e3c94448505d h1:KO+xuVLl2jTQ7VCwAxvyz3kvJyi8qfYho82Qot+aG7o=
+github.com/metrumresearchgroup/gogridengine v0.0.2-0.20231228183543-e3c94448505d/go.mod h1:opfxgPaKkfTsV5EbwTkH3oUMAyJE7VL1twLdhEPXorg=
 github.com/mitchellh/go-homedir v1.1.0 h1:lukF9ziXFxDFPkA1vsr5zpc1XuPDn/wFntq5mG+4E0Y=
 github.com/mitchellh/go-homedir v1.1.0/go.mod h1:SfyaCUpYCn1Vlf4IUYiD9fPX4A5wJrkLzIz1N1q0pr0=
 github.com/mitchellh/mapstructure v1.1.2 h1:fmNYVwqnSfB9mZU6OS2O6GsXM+wcskZDuKQzvN1EDeE=
