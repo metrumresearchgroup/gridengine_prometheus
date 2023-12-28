@@ -7,7 +7,7 @@ nfpms:
     id: gridengine_prometheus
     # You can change the name of the package.
     # Default: `{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}`
-    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
+    file_name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
 
     # Your app's vendor.
     # Default is empty.
@@ -48,18 +48,18 @@ nfpms:
     # Empty folders that should be created and managed by the packager
     # implementation.
     # Default is empty.
-    empty_folders:
-    - /var/log/gridengine_prometheus
-    - /etc/gridengine_prometheus
 
-    # Files or directories to add to your package (beyond the binary).
-    # Keys are source paths/globs to get the files from.
-    # Values are the destination locations of the files in the package.
-    files:
-      "scripts/gridengine_prometheus.service": "/etc/systemd/system/gridengine_prometheus.service"
-      "scripts/gridengine_prometheus.sh" : "/etc/init.d/gridengine_prometheus"
-      "scripts/gridengine_prometheus.yaml" : "/etc/gridengine_prometheus/config.yaml"
-
+    contents:
+      - dst: /var/log/gridengine_prometheus
+        type: dir
+      - dst: /etc/gridengine_prometheus
+        type: dir
+      - src: "scripts/gridengine_prometheus.service"
+        dst: "/etc/systemd/system/gridengine_prometheus.service"
+      - src:  "scripts/gridengine_prometheus.sh"
+        dst: "/etc/init.d/gridengine_prometheus"
+      - src: "scripts/gridengine_prometheus.yaml"
+        dst: "/etc/gridengine_prometheus/config.yaml"
 
     # Scripts to execute during the installation of the package.
     # Keys are the possible targets during the installation process
