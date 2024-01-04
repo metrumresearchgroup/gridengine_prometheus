@@ -11,21 +11,4 @@ steps:
     commands:
       - go mod tidy
       - go mod download
-      - go test ./... -covermode=count -coverprofile=coverage.out
-
-  - name: Coverall Work
-    image: golang
-    environment:
-      COVERALLS_TOKEN:
-        from_secret: COVERALLS_TOKEN
-    commands:
-      - go get golang.org/x/tools/cmd/cover
-      - go get github.com/mattn/goveralls
-      - go mod download
-      #Revert the mod file so it doesn't freaking break
-      - git checkout go.mod
-      - goveralls -coverprofile=coverage.out -service=drone.io -repotoken $COVERALLS_TOKEN
-    when:
-    event:
-      exclude:
-        - pull_request
+      - go test ./...
