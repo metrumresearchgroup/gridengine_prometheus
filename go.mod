@@ -3,7 +3,7 @@ module github.com/metrumresearchgroup/gridengine_prometheus
 go 1.21
 
 require (
-	github.com/metrumresearchgroup/gogridengine v0.0.2-0.20231228183543-e3c94448505d
+	github.com/metrumresearchgroup/gogridengine v0.0.2
 	github.com/prometheus/client_golang v1.18.0
 	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/cobra v0.0.5
